@@ -1,0 +1,2899 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Customer's Order Management</title>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery-1.12.4.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script src="js/jquery.dataTables.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap-dialog.min.js"></script>
+<script src="js/bootstrap-select.js"></script>
+<script src="js/daterangepicker.js"></script>
+<script src="js/jquery.canvasjs.min.js"></script>
+<script src="js/jquery.bootstrap-growl.min.js"></script>
+<script src="js/jspdf.debug.js"></script>
+<script src="js/jspdf.min.js"></script>
+
+
+<!-- <script src="js/dataTables.jqueryui.min.js"></script>
+<script src="js/dataTables.buttons.min.js"></script>
+<script src="js/buttons.jqueryui.min.js"></script>
+<script src="js/jszip.min.js"></script>
+<script src="js/pdfmake.min.js"></script>
+<script src="js/vfs_fonts.js"></script>
+<script src="js/buttons.html5.min.js"></script>
+<script src="js/buttons.print.min.js"></script>
+<script src="js/buttons.colVis.min.js"></script> -->
+
+
+
+
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="css/bootstrap-dialog.min.css"/>
+<link rel="stylesheet" type="text/css" href="css/customer.css"/>
+<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css"/>
+<link rel="stylesheet" type="text/css" href="css/jquery-ui.css"/>
+
+<link rel="stylesheet" href="css/jquery.dataTables.min.css"/>
+<link rel="stylesheet" href="css/daterangepicker.css"/>
+    
+</head>
+<body bgcolor="#E6E6FA">
+<div class="tab" style="background: #00801c;">
+<button class="tablinks" onclick="openCity(event, 'DashBoard')" id="defaultOpen" style="font-size: 20px; color: antiquewhite;">DashBoard</button>
+<button class="tablinks" onclick="openCity(event, 'Order')"  style="font-size: 20px; color: antiquewhite;">Order</button>
+<button class="tablinks" onclick="openCity(event, 'Transaction')" style="font-size: 20px; color: antiquewhite;">Transaction</button>
+<button class="tablinks" onclick="openCity(event, 'Customer')" style="font-size: 20px; color: antiquewhite;">Customer</button>
+<button class="tablinks" onclick="openCity(event, 'Product')" style="font-size: 20px; color: antiquewhite;">Product</button>
+<button class="tablinks" onclick="openCity(event, 'Bills')" style="font-size: 20px; color: antiquewhite;">Bills</button>
+<button id='logout' style="font-size: 20px; color: antiquewhite; float:right"><img src="/CustomerService/images/logout_btn.jpg" width="100" height="30"></button>
+
+  <!-- <h1 style="padding-left: 20%">Order Management</h1> -->
+  <!-- <h1>Agrawal Food Product</h1> -->
+  <!-- <br> <label for="header" style="font-style: oblique; position: relative;size: 20%;">Agrawal Food Product</label> -->
+</div>
+			<!----------------------------------------- Customer ----------------------------------------------------------->
+<div id="Customer" class="tabcontent" style="background-color: mediumseagreen;">
+	<div class="form-group row">
+		<div class="col-md-12">
+			<h1>Add Customer</h1>
+				<div class="col-xs-2 col-md-1">
+					<br> <label for="name">Name:</label> 
+					<input type="text" class="form-control" id="custName" name="customer"><br>
+				</div>
+				<div class="col-xs-2 col-md-1">
+					<br> <label for="mail">E-mail:</label> <input type="email"
+						class="form-control" id="custEmail" name="customer"><br>
+				</div>
+					<div class="col-xs-2 col-md-1">
+						<br> <label for="mail">Address</label> <input type="text"
+							class="form-control" id="custAddress" name="customer"><br>
+					</div>
+					<div class="col-xs-2 col-md-1">
+						<br> <label for="mail">Phone</label><br> <input
+							type="text" class="form-control" id="custMobile"
+							name="customer">
+							<span id="ph_error_message" class = "text-danger"></span>
+					</div>
+					<div class="col-xs-2 col-md-2">
+						<br> <label for="mail">GST Number</label> <input type="text"
+							class="form-control" id="custGST" name="customer"><br>
+					</div>
+					<div class="form-group col-md-4" ><!-- style="padding-top: 43px" -->
+					<br><br>
+						 <input id="btn" type="submit" name="submit"
+							value="Add Customer" class="btn btn-info" style="background-color: crimson">
+							<span id="customer_error_message" class = "text-danger"></span>
+					</div>
+		</div>
+	</div>
+				<!-- <input type="text" id="customerSearch" placeholder="Search Customer"></input> -->
+	<div class = "col-md-6">
+		<h1>Customer List</h1>
+		<table id="customer" class="data-contacts-js display table table-striped " 
+			cellspacing="0" width="100%">
+			<thead>
+				<tr>
+					<!-- <th>Sr. No.</th> -->
+					<th>Customer Name</th>
+					<th>Customer Phone</th>
+					<th>Email ID</th>
+					<th>Address</th>
+					<th>GST Number</th>
+					<th>Created Date (MM/DD/YYYY)</th>
+				</tr>
+			</thead>
+		</table>
+	 </div>
+	 <div class = "col-md-1"></div> 
+	 <div class = "col-md-4">
+         <h1>Transactions 
+         <div class="col-md-1" style="/* padding-top: 90%*/ ; padding-left: 25%;">  
+             <input type="button" name="graphrsetfilter" id="graphrsetfilter" value="Reset Filter" class="pull-right btn btn-info" style="background-color: crimson"/>  
+        </div>
+        </h1>
+		 <div id="customerchartContainer"></div>
+	 </div>
+</div>
+		
+		<!--------------------------------- Product --------------------------------------------->
+<div id="Product" class="tabcontent" style="background-color: mediumseagreen;">
+	<div class="form-group row">
+		<div class="col-md-12">
+			<h1>Add Product</h1>
+				<!-- <div class = "panel panel-default"> -->
+					<div class="col-md-2">
+						<br> <label for="name">Name:</label> <input type="text"
+							class="form-control" id="productName" name="product"><br>
+					</div>
+					<div class="col-md-2">
+						<br> <label for="mail">Description</label> <input type="text"
+							class="form-control" id="productDesc" name="product"><br>
+					</div>
+					<div class="col-md-2">
+						<br> <label for="mail">HSN</label> <input type="text"
+							class="form-control" id="hsnCode" name="product"><br>
+					</div>
+					<div class="col-md-2">
+						<br> <label for="mail">SGST</label> <input type="text"
+							class="form-control" id="sgst" name="product1">
+							<span id="sgst_error_message" class = "text-danger"></span>
+					</div>
+					<div class="col-md-2">
+						<br> <label for="mail">CGST</label> <input type="text"
+							class="form-control" id="cgst" name="product1">
+							<span id="cgst_error_message" class = "text-danger"></span>
+					</div>
+					<div class="form-group col-md-2" style="padding-top: 45px">
+						<input id="productbtn" type="submit" name="submit"value="Add Product" class="btn btn-info" style="background-color: crimson">
+						<span id="error_message" class = "text-danger"></span>
+						<span id="success_message" class = "text-success"></span>
+						<!-- <button type="button" onclick="ClearFields();">Clear</button> -->
+					</div>
+				</div>
+	</div>
+	<div class = "col-md-10">
+		<h1>Product List</h1>
+		<!-- <input type="text" id="productSearch" placeholder="Search Product"></input> -->
+		<table id="product"
+			class="data-product-js display table table-striped"
+			cellspacing="0" width="100%">
+			<thead>
+				<tr>
+					<th>Product Name</th>
+					<th>Product Description</th>
+					<th>HSN Code</th>
+					<th>SGST(%)</th>
+					<th>CGST(%)</th>
+					<th>Created Date (MM/DD/YYYY)</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+</div>
+		
+		
+		<!--------------------------------------- DashBoard--------------------------------------- -->
+		
+<div id="DashBoard" class="tabcontent" style="background-color: mediumseagreen;">
+	<div class="row">
+		<div class="col-md-4">
+			<div class="col-md-4">  
+				<br> <label for="name">Year & Month</label>
+                    <input type="text"  id="month" class="form-control" name="month" />  
+                    <span id="order_error" class = "text-danger"></span>
+             </div> 
+			<div class="form-group col-md-1"> <!-- style="padding-top: 45px" -->
+			<br><br>
+				<input id="yearbtn" type="submit" name="submit" value="Enter" class="btn btn-info" style="background-color: crimson">
+				<!-- <span id="order_error_message" class = "text-danger"></span> -->
+			</div>
+		</div>
+		<div class="col-md-6">  
+                    <h1 style="font-family: serif;color: springgreen;">Agrawal Food Product</h1>
+        </div>
+	</div>
+	<div class="row">
+		<div class="col-md-1"></div>
+		<div class="col-md-4">
+			<h3>Product Sales Data</h3>
+			<div id="qtyChartContainer" style="width: 100%; height: 300px;display: inline-block;"></div>
+		</div>
+		<div class="col-md-2"></div>
+		<div class="col-md-4">
+			<h3>Month Sales Data</h3>
+				<div id="monthChartContainer" style="width: 100%; height: 300px;display: inline-block;"></div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-1"></div>
+		<div class="col-md-4">
+			<h3>Order Data</h3>
+				<div id="orderchartContainer" style="width: 100%; height: 300px;display: inline-block;"></div>
+		</div>
+		<div class="col-md-2"></div>
+		<div class="col-md-4">
+			<h3>Follow up Chart</h3>
+				<div id="customerPendingAmntchartContainer" style="width: 100%; height: 300px;display: inline-block;"></div>
+		 </div>
+	</div>
+</div>		
+		
+		<!--------------------------------------- order--------------------------------------- -->
+<div id="Order" class="tabcontent" style="background-color: mediumseagreen;">
+	<div class="form-group row">
+		<div class = "col-md-6">
+			<h1>Place Order</h1>
+			<div class="col-xs-2 col-md-2">
+				<br> <label for="name">Name</label> 
+				<!-- <input type="text"class="form-control" id="customerName" name="customer_Name"> --><br>
+					<select id = "customerDropDown" class="selectpicker" data-width="75%" data-live-search="true"> <!-- class="selectpicker" -->
+					</select>
+			</div>
+			<div class="col-xs-2 col-md-2">
+				<br> <label for="name">Product</label> 
+				<!-- <input type="text" class="form-control" id="product" name="product"> --><br>
+				<select id = "productDropDown" class="selectpicker" data-width="75%" data-live-search="true">
+					</select>
+			</div>
+			<div class="col-xs-2 col-md-2">
+				<br> <label for="name">Quantity</label>
+				 <input type="text" class="form-control" id="orderQty" name="order"><br>
+					<span id="qty_error_message" class = "text-danger"></span>
+			</div>
+			<div class="col-xs-2 col-md-2">
+				<br> <label for="mail">Price</label> 
+				<input type="text" class="form-control" id="itemprice" name="order"><br>
+					<span id="price_error_message" class = "text-danger"></span>
+			</div>
+			<div class="col-md-2">  
+				<br> <label for="name">Order Date</label>
+                    <input type="text"  id="orderDate" class="form-control" name="order" />  
+                    <span id="order_error" class = "text-danger"></span>
+               </div>  
+			<div class="form-group col-md-1"> <!-- style="padding-top: 45px" -->
+			<br><br>
+				<input id="orderbtn" type="submit" name="submit" value="Place Order" class="btn btn-info" style="background-color: crimson">
+				<span id="order_error_message" class = "text-danger"></span>
+			</div>
+		</div>
+		<div class = "col-md-1">
+		</div>
+		<div class = "col-md-4">
+			<h1>Filter Order</h1>
+			<div class="col-md-3">  
+				<br> <label>From Date</label>
+                    <input type="text" name="filter_date" id="order_from_date" class="form-control"  />  
+               </div>  
+               <div class="col-md-3">  
+              		 <br> <label>To Date</label>
+                    <input type="text" name="filter_date" id="order_to_date" class="form-control"  />  
+               </div>  
+               <div class="col-md-2"> <!-- style="padding-top: 45px" --> 
+                <br><br>
+                    <input type="button" name="filter" id="order_filter" value="Filter" class="btn btn-info" style="background-color: crimson" />  
+                    <span id="order_filter_error_message" class = "text-danger"></span>
+               </div>  
+               <div class="col-md-3"> <!-- style="padding-top: 45px" --> 
+                <br><br>
+                    <input type="button" name="rsetfilter" id="order_rsetfilter" value="Reset Filter" class="btn btn-info" style="background-color: crimson" />  
+               </div>  
+               <div style="clear:both"></div>
+		</div>
+		
+		<!-------------------------------- bill generate --------------------------------->
+		<div class="container col-md-1" >
+		  <!-- Trigger the modal with a button -->
+		  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" style="background-color: crimson">Bill</button>
+		
+		  <!-- Modal -->
+		  <div class="modal fade" id="myModal" role="dialog" data-keyboard="false" data-backdrop="static">
+		    <div class="modal-dialog modal-lg">
+		    
+		      <!-- Modal content-->
+		      <div class="modal-content" id='billcontent'>
+		        <div class="modal-header" style="background-color: #337ab7">
+		          <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+		          <h4 class="modal-title" style="color: white;">Bill Details</h4>
+		        </div>
+		        <div class="modal-body">
+				  <table>
+			<tr>
+				<td>
+					<label> Party Name</label>
+				</td>
+				<td>
+					<!-- <input type = "text" id = "partyName"><br> -->
+					<select id = "billCustomerDropDown" class="selectpicker" data-width="75%" data-live-search="true"> <!-- class="selectpicker" --></select><br>
+				</td>
+				<td style = "width:44px;">
+				</td>
+				<td>
+					<label> Quantity</label>
+				</td>
+				<td>
+					<input type = "text" id = "qty" name="billField"><br>
+					<span id="bill_Qty_error_message" class = "text-danger"></span>
+				</td>
+				<td style = "width:44px;">
+				</td>
+				<td>
+					<label> Individual Recipient</label>
+					<input type = "checkbox" id = "bill1" class='billck'><br>
+				</td>
+		    </tr>
+			<tr style="height: 5px;">
+				<td>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label> Product Name</label>
+				</td>
+				<td>
+					<!-- <input type = "text" id = "billProductName"><br> -->
+					<select id = "billProductDropDown" class="selectpicker" data-width="75%" data-live-search="true"></select><br>
+				</td>
+				<td style = "width:44px;">
+				</td>
+				<td>
+					<label> Price</label>
+				</td>
+				<td>
+					<input type = "text" id = "billamount" name="billField"><br>
+					<span id="billamount_error_message" class = "text-danger"></span>
+				</td>
+				<td style = "width:44px;">
+				</td>
+				<td>
+					<label> Party bill</label>
+					<input type = "checkbox" id = "bill2" class='billck'><br>
+				</td>
+			</tr>
+			<tr style="height: 5px;">
+				<td>
+				</td>
+			</tr>
+			<!-- <tr>
+				<td>
+					<label> Quantity</label>
+				</td>
+				<td>
+					<input type = "text" id = "qty"><br>
+				</td>
+			</tr>
+			<tr style="height: 5px;">
+				<td>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label> Price</label>
+				</td>
+				<td>
+					<input type = "text" id = "billamount"><br>
+				</td>
+			</tr> -->
+			<tr style="height: 5px;">
+				<td>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label> Invoice No.</label>
+				</td>
+				<td>
+					<input type = "text" id = "invoice" name="billField"><br>
+					<span id="invoice_error_message" class = "text-danger"></span>
+				</td>
+				<td style = "width:44px;">
+				</td>
+				<td>
+					<label>Date </label>
+				</td>
+				<td>
+					<input type = "text" id = "billDate" name="billField"><br>
+					<span id="billDate_error_message" class = "text-danger"></span>
+				</td>
+				<td style = "width:44px;">
+				</td>
+				<td>
+					<label>Transporter bill</label>
+					<input type = "checkbox" id = "bill3" class='billck'><br>
+				</td>
+			</tr>
+			<tr style="height: 5px;">
+				<td>
+				</td>
+			</tr>
+			
+			<tr>
+				<!-- <td>
+					<label> bill 1</label>
+					<input type = "checkbox" id = "bill1"><br>
+				</td>
+				<td>
+					<label> bill 2</label>
+					<input type = "checkbox" id = "bill2"><br>
+				</td>
+				<td>
+					<label> bill 3</label>
+					<input type = "checkbox" id = "bill3"><br>
+				</td> -->
+				<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+				<td>
+				<button type="submit" id = "addOrder" class="btn btn-default" style="background-color: crimson; color: white;">Add</button>
+				</td>
+			</tr>
+			
+		  <!--<label> Total Amount</label>
+		  <input type = "text" id = "totalAmount"> -->
+		  
+		  </table>
+		  <div class = "col-md-12">
+		<h5></h5>
+		<!-- <input type="text" id="orderSearch" placeholder="Search Order"></input> -->
+		<table id="billOrder"
+			class="data-order-js display table table-striped"
+			cellspacing="0" width="100%">
+			<thead>
+				<tr>
+					<th>Customer Name</th>
+					<th>Product Name</th>
+					<th>HSN Code</th>
+					<th>Quantity</th>
+					<th>Unit Price</th>
+					<th>CGST</th>
+					<th>SGST</th>
+					<th>Total Amount</th>
+					<th>Date (MM/DD/YYYY)</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+		  
+		        </div>
+		        <div class="modal-footer">
+				  <button type="submit" id = "submitbtn" class="btn btn-default" style="background-color: crimson; color: white;">Generate Bill</button>
+		          <button type="button" id = "cancelbtn" class="btn btn-default" data-dismiss="modal">Close</button>
+		        </div>
+		      </div>
+		      
+		    </div>
+		  </div>
+</div>
+	</div>	
+	<div>
+	<div class = "col-md-12">
+		<h1>Order List</h1>
+		<!-- <input type="text" id="orderSearch" placeholder="Search Order"></input> -->
+		<table id="order"
+			class="data-order-js display table table-striped"
+			cellspacing="0" width="100%">
+			<thead>
+				<tr>
+					<th>Customer Name</th>
+					<th>Customer's Order No</th>
+					<th>Product Name</th>
+					<th>Quantity</th>
+					<th>Price / Item</th>
+					<th>Total Amount</th>
+					<th>Order Date (MM/DD/YYYY)</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+	<div class = "col-md-1">
+	</div>
+	<!-- <div class = "col-md-5">
+		 <h1>Monthly Sales Data</h1>
+			<div id="chartContainer"></div>
+	</div> -->
+	</div>
+</div>
+		
+		<!------------------------------ Bills ---------------------------->
+		
+<div id="Bills" class="tabcontent" style="background-color: mediumseagreen;">
+	<div class="form-group row">
+		<div class="col-md-12">
+			<h1>Total Bills</h1>
+				<div class="col-md-2">  
+	                  <input type="text" name="bil_date" id="bil_from_date" class="form-control" placeholder="From Date" />  
+	            </div>  
+               <div class="col-md-2">  
+                    <input type="text" name="bil_date" id="bil_to_date" class="form-control" placeholder="To Date" />  
+               </div>  
+               <div class="col-md-1">  
+                    <input type="button" name="filter" id="bil_filter" value="Filter" class="btn btn-info" style="background-color: crimson" />
+                    <span id="bill_filter_error_message" class = "text-danger"></span>  
+               </div>  
+               <div class="col-md-2">  
+                    <input type="button" name="rsetfilter" id="bil_rsetfilter" value="Reset Filter" class="btn btn-info" style="background-color: crimson" />  
+               </div>  
+               <!-- <div style="clear:both"></div>   -->               
+               <br />  
+	    </div>
+     </div> 
+     
+        <div class="col-md-12">
+        	<h1>Bills List</h1>
+				<table id="billTable"
+					class="data-transaction-js display table table-striped"
+					cellspacing="0" width="100%">
+					<thead>
+						<tr>
+							<th>Invoice No.</th>
+							<th>Customer Name</th>
+							<th>Product Name</th>
+							<th>Qty</th>
+							<th>Unit Price</th>
+							<th>Total Amount</th>
+							<th>Created Date (MM/DD/YYYY)</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+</div>
+		
+		
+		
+		<!------------------------------ Transaction ---------------------------->
+		
+<div id="Transaction" class="tabcontent" style="background-color: mediumseagreen;">
+	<div class="form-group row">
+		<div class="col-md-12">
+			<h1>Total Transactions</h1>
+				<div class="col-md-2">  
+	                  <input type="text" name="txn_date" id="from_date" class="form-control" placeholder="From Date" />  
+	            </div>  
+               <div class="col-md-2">  
+                    <input type="text" name="txn_date" id="to_date" class="form-control" placeholder="To Date" />  
+               </div>  
+               <div class="col-md-1">  
+                    <input type="button" name="filter" id="txn_filter" value="Filter" class="btn btn-info" style="background-color: crimson" />
+                    <span id="txn_filter_error_message" class = "text-danger"></span>  
+               </div>  
+               <div class="col-md-2">  
+                    <input type="button" name="rsetfilter" id="txn_rsetfilter" value="Reset Filter" class="btn btn-info" style="background-color: crimson" />  
+               </div>  
+               <!-- <div style="clear:both"></div>   -->               
+               <br />  
+	    </div>
+     </div> 
+        <div class="col-md-12">
+        	<h1>Transaction List</h1>
+				<table id="transaction"
+					class="data-transaction-js display table table-striped"
+					cellspacing="0" width="100%">
+					<thead>
+						<tr>
+							<th>Customer Name</th>
+							<th>Customer Phone</th>
+							<th>Customer's Order No</th>
+							<th>Total Amount</th>
+							<th>Deposit Amount</th>
+							<th>Remaining Amount</th>
+							<th>Created Date (MM/DD/YYYY)</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+</div>
+
+<!------------------------------ login popup ---------------------------->
+
+		  <!-- Modal -->
+		<div class="container" >
+		  <div class="modal" id="loginpopup" role="dialog" data-keyboard="false" data-backdrop="static">
+		    <div class="modal-dialog">
+		      <!-- Modal content-->
+		      <div class="modal-content">
+		        <div class="modal-header" style="background-color: #386542">
+		          <h4 class="modal-title" style="color: white;">Login</h4>
+		        </div>
+		        <div class="modal-body" id="loginpopupbody">
+			        <table>
+			        	<tr>
+			        	<div class="imgcontainer">
+		     				 <img src="/CustomerService/images/loginimage.jpg" class="avatar">
+		     		    </div>
+			        	<td style = "width:125px;"></td>
+			        		<td>
+						  		<label for="uname"><b>Username</b></label>
+						  	</td>
+						  	<td style = "width:44px;"></td>
+						  	<td>
+						  		<input type="text" id="userName" class="form-control" placeholder="Enter Username" name="uname" required>
+							</td>
+						</tr>
+						<tr style="height: 25px;">
+						<tr>
+						<td style = "width:125px;"></td>
+							<td>
+						  		<label for="psw"><b>Password</b></label>
+						  	</td>
+						  	<td style = "width:44px;"></td>
+						  	<td>
+						  		<input type="password" id="password" class="form-control" placeholder="Enter Password" name="psw" required>
+						  	</td>
+						 </tr> 
+						 <tr style="height: 25px;">
+						 <tr>
+							<td></td><td></td><td></td>
+						 	<td>
+						 		<button type="submit" id="login" class="btn btn-info" style="background-color: crimson;">Login</button>
+						 	</td>
+						 </tr>
+					</table>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+</div>
+</body>
+<script type="text/javascript">
+var loggedin = '';
+$(window).on('load',function(){
+    $('#loginpopup').modal('show',{backdrop: 'static',
+		keyboard: false});
+    loggedin = 'success';
+});
+
+$( "#logout" ).click(function() {
+	location.reload();
+	});
+	
+	
+	function login(){
+		var user = new Object();
+        user.userName = $('#userName').val();
+        user.password = $('#password').val();
+        $.ajax({
+            url: 'http://localhost:8080/CustomerService/resources/customer/userAuthenticate',
+            type: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }, 
+            contentType: 'application/json',
+            Accept : 'application/json',
+            dataType: 'json',
+            data: JSON.stringify(user),
+            success: function (data, textStatus, xhr) {
+            	if(data.userAuth === 'You are successfully logged in'){
+            		$('#loginpopup').modal('hide');
+            		 $.bootstrapGrowl(data.userAuth,{
+                        type: 'success',
+                        delay: 3000,
+                        align: 'center'
+                    }); 
+            	}
+            	else{
+            		 $.bootstrapGrowl(data.userAuth,{
+	                        type: 'danger',
+	                        delay: 3000,
+	                        align: 'center'
+	                    }); 
+            	}
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                //console.log('Error ddddin Operation');
+            }
+        });
+        document.getElementById("password").value = "";
+	}
+	
+
+$( "#login" ).click(function() {
+	login();
+	});
+
+var refProductTable;
+ $(document).ready(function() {
+	 
+/* -----------------------Bill Generate----------------------------- */
+getBillAjax();
+function getBillAjax(start_Date,end_Date){
+if(start_Date == undefined && end_Date == undefined){
+	start_Date = "";
+	end_Date = "";
+}
+	  $.ajax({
+	         method  : "GET",
+	         url     : 'http://localhost:8080/CustomerService/resources/customer/getBillDetails?startDate='+start_Date+"&endDate="+end_Date,
+	        headers: {
+                'Content-Type': 'application/json'
+            }, 
+            contentType: 'application/json',
+            Accept : 'application/json',
+            dataType: 'json',
+            success: function(response) {
+	        	 var dataset1 = [];
+		     	 	  $.each(response.bills, function(i, contact) {
+		     	 		  var row = []
+		     	 			row.push(contact.invoiceNo);
+			     	 		row.push(contact.partyName);
+			     	 		row.push(contact.item);
+			     	 		row.push(contact.qty);
+			     	 		row.push(contact.amount);
+			     	 		row.push(contact.totalAmount);
+			     	 		//row.push((new Date(contact.billDate)).toLocaleString().split(',')[0]);
+			     	 		row.push((new Date(contact.billDate)).toLocaleDateString("en-au", {year: "numeric", month: "short",day: "numeric"}).replace(/\s/g,'-'));
+			     	 		//row.push('<a href="#" class="billRecord" data="'+contact.invoiceNo+'">Delete</a>');
+			     	 		row.push('<a href="#" class="billRecord" data="'+contact.invoiceNo+'"><img src="/CustomerService/images/delete_btn.jpg" width="20" height="20"></a>');
+			     	 		dataset1.push(row);
+		            });  
+		     	    var billTable = $('#billTable').DataTable({
+		     	    				"destroy": true,
+		     	    				"order": [[ 6, "desc" ]],
+		     	    				lengthChange: false,
+		     	    		        buttons: [ 'copy', 'excel', 'pdf', 'colvis' ],
+			     					data:dataset1,
+     					drawCallback: function( settings ) {
+     		     			 $(".billRecord").on('click',function(){
+     		     				var invoiceId = $(this).attr('data');
+     		     				var r = confirm("Are you sure you want to delete?")
+     		     				if(r==true){
+     					  	 $.ajax({
+     					         method  : "DELETE",
+     					         url     : 'http://localhost:8080/CustomerService/resources/customer/deleteBill?invoiceId='+invoiceId,
+     					        headers: {
+     				                'Content-Type': 'application/json'
+     				            }, 
+     				            contentType: 'application/json',
+     				            Accept : 'application/json',
+     				            dataType: 'json',
+     					         success: function(response) {
+     					        	getBillAjax(start_Date,end_Date);
+     					        	$.bootstrapGrowl(response.bills,{
+     				                    type: 'success',
+     				                    delay: 3000,
+     				                    align: 'center'
+     				                });
+     					         },
+   							error : function(e) {
+   						}
+  					});
+     		     				}
+     		     	       });
+     		     	    }
+		           				 });
+			},
+			error : function(e) {
+			}
+		});
+ }
+ 
+$( "#bil_from_date" ).datepicker({  maxDate: new Date() });
+$( "#bil_to_date" ).datepicker({  maxDate: new Date() });
+ 
+ 
+$('#bil_filter').click(function(e) {
+	   var start_Date = $('#bil_from_date').val();
+	   var end_Date = $('#bil_to_date').val();
+	   
+	   if(start_Date > end_Date){
+			alert("Start date can't be greater than To Date.")
+	   }
+	   else{
+		   var isValid = true;
+	        $('input[name="bil_date"]').each(function() {
+	          //  if ($.trim($(this).val()) == '') {
+	       	   if(start_Date == '' || end_Date == ''){
+	       		   $('#bill_filter_error_message').html("All Fields are required.").show().delay(1000).fadeOut("slow");
+	                isValid = false;
+	                $(this).css({
+	                    "border": "1px solid red"
+	                });
+	            }
+	            else {
+	                $(this).css({
+	                    "border": "",
+	                    "background": ""
+	                });
+	            }
+	        });
+     
+	       if (isValid == false){
+	           e.preventDefault();
+	       }
+	        else{
+	        	getBillAjax(start_Date,end_Date);
+	        }
+	        }
+}); 
+ 
+$('#bil_rsetfilter').click(function() {
+		getBillAjax();
+	   document.getElementById("bil_from_date").value = "";
+	   document.getElementById("bil_to_date").value = "";
+	 });
+ 
+		var billDataArr= [];
+		  $( "#billDate" ).datepicker();
+		    var t = $('#billOrder').DataTable({"searching": false,
+					"paging":   false,
+					"destroy": true});
+		     $(".billck").hide();
+		 	 $('#addOrder').on('click', function () {
+		 		//billDataArr= [];
+		 		 $(".billck").show();
+			  var billField = new Object();
+			  billField.invoice = $('#invoice').val();
+			  billField.qty = $('#qty').val();
+			  billField.billamount = $('#billamount').val();
+			  billField.billDate = $('#billDate').val();
+			  debugger
+			  var isValid = true;
+		         $('input[name="billField"]').each(function() {
+		        	   if(billField.invoice == '' || billField.qty == '' || billField.billamount == '' || billField.billDate == ''){
+		        		   $('#error_message').html("All Fields are required.").show().delay(1000).fadeOut("slow");
+		                 isValid = false;
+		                 $(this).css({
+		                     "border": "1px solid red"
+		                 });
+		             }
+		             else {
+		                 $(this).css({
+		                     "border": "",
+		                     "background": ""
+		                 });
+		             }
+		         });
+		        if (isValid == false){
+		            e.preventDefault();
+		        }
+		        else{
+				  var inputVal = document.getElementById("invoice");
+				  document.getElementById("invoice").readOnly = true;
+				  inputVal.style.backgroundColor = "gainsboro";
+				  
+				  document.getElementById("billDate").disabled = true;
+				  document.getElementById("billCustomerDropDown").disabled = true;
+				  debugger
+			  var returnValue =	getBillData();
+			  billDataArr.push(returnValue);
+			  t.row.add( [
+		          returnValue[0],
+		          returnValue[1],
+		          returnValue[2],
+		          returnValue[3],
+		          returnValue[4],
+		          returnValue[5],
+		          returnValue[6],
+		          returnValue[7],
+		          returnValue[8],
+		        ] ).draw( false );
+			  preparedBillData(billDataArr);
+		    } 
+		  });
+		 	 
+		 $( "#cancelbtn").click(function(e) {
+			  //var table = $('#billOrder').DataTable({"destroy": true});
+			  var datatable = $('#billOrder').DataTable();
+			 // table.clear().draw();
+			  var returnValue =new Array('');
+			  datatable.clear().draw();
+			  // datatable.rows.add(); // Add new data
+			   datatable.columns.adjust().draw(); // Redraw the DataTable
+			  var inputVal = document.getElementById("invoice");
+			  document.getElementById("invoice").readOnly = false;
+			  inputVal.style.backgroundColor = "white";
+			  
+			  document.getElementById("billDate").disabled = false;
+			  document.getElementById("billCustomerDropDown").disabled = false;
+			  $('#bill1').prop('checked', false);
+			  $('#bill2').prop('checked', false);
+			  $('#bill3').prop('checked', false);
+			 // getBillData();
+			 // location.reload();
+		  });
+		  
+		  
+		  $("#qty").keypress(function (e) {
+			    //if the letter is not digit then display error and don't type anything
+			    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+			       //display error message
+			       $("#bill_Qty_error_message").html("Digits Only").show().delay(1000).fadeOut("slow");
+			              return false;
+			   }
+			  });
+			  
+			$("#billamount").keypress(function (e) {
+			    //if the letter is not digit then display error and don't type anything
+			    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+			       //display error message
+			       $("#billamount_error_message").html("Digits Only").show().delay(1000).fadeOut("slow");
+			              return false;
+			   }
+			  });
+			$("#invoice").keypress(function (e) {
+			    //if the letter is not digit then display error and don't type anything
+			    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+			       //display error message
+			       $("#invoice_error_message").html("Digits Only").show().delay(1000).fadeOut("slow");
+			              return false;
+			   }
+			  });
+		 $( "#submitbtn").click(function(e) {
+				var billDataList = [];
+		 	   // var billDTO = new Object();
+		 	   debugger;
+				for(var i=0; i<billDataArr.length;i++){
+					var row = []
+					var billDTO = new Object();
+					billDTO.partyName = billDataArr[i][0];
+					billDTO.item = billDataArr[i][1];
+					billDTO.qty = billDataArr[i][3];
+					billDTO.amount = billDataArr[i][4];
+					billDTO.totalAmount = billDataArr[i][7];
+					billDTO.billDate = Date.parse(billDataArr[i][8]);
+					billDTO.invoiceNo = billDataArr[i][13];
+					billDataList.push(billDTO);
+				}
+				var cb1 = $('#bill1').prop('checked')
+				var cb2 = $('#bill2').prop('checked')
+				var cb3= $('#bill3').prop('checked')
+				debugger
+				if(cb1==false && cb2==false && cb3==false){
+				alert("Select bill type")	
+				}
+				else{
+				$.ajax({
+		            url: 'http://localhost:8080/CustomerService/resources/customer/addBillDetails',
+		            type: 'POST',
+		            headers: {
+		                'Content-Type': 'application/json'
+		            }, 
+		            contentType: 'application/json',
+		            Accept : 'application/json',
+		            dataType: 'json',
+		            data: JSON.stringify(billDataList),
+		            success: function (data, textStatus, xhr) {
+		            		$.bootstrapGrowl(data.bill,{
+		                        type: 'success',
+		                        delay: 3000,
+		                        align: 'center'
+		                    });
+		            		 preparedBillData(billDataArr,cb1, cb2,cb3);
+		            		 getBillAjax();
+		            		//if(data.bill == "Bill Added Successfully."){
+			            		 //location.reload();
+			     				 var datatable = $('#billOrder').DataTable();
+			     				 var returnValue =new Array('');
+			     				 datatable.clear().draw();
+			     				 datatable.columns.adjust().draw(); // Redraw the DataTable
+			     				 var inputVal = document.getElementById("invoice");
+			     				 document.getElementById("invoice").readOnly = false;
+			     				 inputVal.style.backgroundColor = "white";
+			     				 document.getElementById("billDate").disabled = false;
+			     			 	 document.getElementById("billCustomerDropDown").disabled = false;
+			     			 	$('#bill1').prop('checked', false);
+			     			 	$('#bill2').prop('checked', false);
+			     			 	$('#bill3').prop('checked', false);
+			     			 	$('#myModal').modal('hide');
+		            		//}
+		            },
+		            error: function (xhr, textStatus, errorThrown) {
+		            }
+		        });
+		 }
+				
+			// location.reload();	
+		}); 
+		
+		function getBillData(){	
+					var partyName = $("#billCustomerDropDown").val();
+					var billProductName = $("#billProductDropDown").val();
+					var customerDTO = [];
+					customerDTO = getCustomerAjaxBill(partyName)
+					var custAddress = customerDTO.customer[0].custAddress;
+					var custName = customerDTO.customer[0].custName;
+					var custEmail = customerDTO.customer[0].emailId;
+					if(custEmail == null){
+						custEmail = '';
+					}
+					var custGST = customerDTO.customer[0].gstNumber;
+					if(custGST == null){
+						custGST = '';
+					}
+					var custph = customerDTO.customer[0].phNumber;
+					if(custph == null){
+						custph = '';
+					}
+					
+					var productDTO = [];
+					productDTO = getProductAjaxBill(billProductName);
+					var productDesc = productDTO.product[0].desc;
+					var productHsn = productDTO.product[0].hsnCode;
+					var productName = productDTO.product[0].productName;
+					var productSGST = productDTO.product[0].sgst;
+					if(productSGST == null){
+						productSGST = '';
+					}
+					var productCGST = productDTO.product[0].cgst;
+					if(productCGST == null){
+						productCGST = '';
+					}
+					
+					var qty = $("#qty").val();
+					var amount = $("#billamount").val();
+					var invoice = $("#invoice").val();
+					var totalAmount  = qty * amount;
+					var orderDate = $('#billDate').val();
+					 var dataset1 = [];
+					 var billRow = [];
+					 billRow.push(custName);
+					 billRow.push(productName);
+					 billRow.push(productHsn);
+					 billRow.push(qty);
+					 billRow.push(amount);
+					 billRow.push(productCGST);
+					 billRow.push(productSGST);
+					 billRow.push(totalAmount);
+					 billRow.push(orderDate);
+					 billRow.push(custAddress);
+					 billRow.push(custEmail);
+					 billRow.push(custph);
+					 billRow.push(custGST);
+					 billRow.push(invoice);
+					// document.getElementById("billCustomerDropDown").value = "";
+						document.getElementById("billProductDropDown").value = "";
+						document.getElementById("qty").value = "";
+						document.getElementById("billamount").value = "";
+						
+					 return billRow;
+				}
+		     	 		
+		    var paramArr = [];
+		    function preparedBillData(param,cb1,cb2,cb3){
+		    	var pdf = new jsPDF();
+	     	 	 if(param != undefined && param != ''){
+	     	 		var custAddress = '';
+			    	var custName = '';
+			    	var custEmail = '';
+			    	var custGST = '';
+			    	var custph = '';
+
+			    	var productDesc = '';
+			    	var productHsn = '';
+			    	var productName = '';
+			    	var productSGST = '';
+			    	var productCGST = '';
+			    	var qty = '';
+			    	var totalQTY = '';
+			    	var amount = '';
+			    	var totalProductamount = '';
+			    	var totalCGST = '';
+			    	var totalSGST = '';
+			    	var totalTax = '';
+			    	var totalAmntIncTax = '';
+			    	
+			    	var invoice = '';
+			    	var totalAmount = '';
+			    	var orderDate = '';
+	     	 		custName = param[0][0];
+	     	 		custAddress = param[0][9];
+	     	 		custEmail = param[0][10];
+	     	 		custph = param[0][11];
+	     	 		custGST = param[0][12];
+	     	 		orderDate = param[0][8];
+	     	 		invoice = param[0][13]
+     	 			
+     	 			pdf.setFontType('normal');
+					pdf.setFontSize(10);
+					pdf.setTextColor(0,0,0);
+	     	 		pdf.text(80, 32, `${custName}`);
+	     	 		
+	     	 		var splitCustAddress = pdf.splitTextToSize(custAddress, 50);
+					pdf.text(80, 36, splitCustAddress);
+	     	 		
+					pdf.text(145, 32, `${custName}`);
+					
+					var splitCustAddress = pdf.splitTextToSize(custAddress, 50);
+					pdf.text(145, 36, splitCustAddress);
+					
+					pdf.text(175, 22, `${orderDate}`);
+					pdf.text(80, 44, `${custEmail}`);
+					pdf.text(80, 52, `${custGST}`);
+					pdf.text(145, 48, `${custph}`);
+					pdf.text(184, 16, `${invoice}`);
+					var pVlSize = 78;
+	     	 		 for(var i = 0;i<param.length;i++){
+	     	 			productName = param[i][1];
+	     	 			productHsn = param[i][2];
+	     	 			qty = param[i][3];
+	     	 			amount = param[i][4];
+	     	 			productCGST = param[i][5];
+	     	 			productSGST = param[i][6];
+	     	 			totalAmount = param[i][7];
+	     	 			//var sgstPercntAmnt = (100 * Number(productSGST)) / Number(totalAmount);
+	     	 			//var cgstPercntAmnt = (100 * Number(productCGST)) / Number(totalAmount);
+	     	 			var sgstPercntAmnt = (Number(totalAmount) * Number(productSGST)) /100 ;
+	     	 			var cgstPercntAmnt = (Number(totalAmount) * Number(productCGST)) / 100;
+	     	 			
+	     	 			totalCGST = Number(totalCGST) + Number(cgstPercntAmnt);
+	     	 			totalSGST = Number(totalSGST) + Number(sgstPercntAmnt);
+	     	 			if(i>0){
+	     	 				pVlSize = pVlSize + 5;
+	     	 			}
+	     	 			totalQTY = Number(totalQTY) + Number(qty);
+	     	 			totalProductamount = Number(totalProductamount) + Number(totalAmount);
+	     	 			pdf.text(10, pVlSize, `${productName}`);
+	     	 			pdf.text(80, pVlSize, `${productHsn}`);
+	     	 			pdf.text(101, pVlSize, `${qty}`);
+	     	 			pdf.text(120, pVlSize, `${amount}`);
+	     	 			pdf.text(145, pVlSize, `${productCGST}`);
+	     	 			pdf.text(165, pVlSize, `${productSGST}`);
+	     	 			pdf.text(180, pVlSize, `${amount*qty}`);
+					}
+		     	 		pdf.text(105, 200, `${totalQTY}`);
+						//pdf.text(120, 200, `${amount}`);
+						pdf.text(185, 200, `${totalProductamount}`);
+						pdf.text(185, 210, `${totalProductamount}`);
+						
+						totalTax = Number(totalSGST) + Number(totalCGST);
+						console.log('totalTax'+totalTax)
+						pdf.text(185, 215, `${totalTax}`);
+						
+						totalAmntIncTax = Number(totalProductamount) + Number(totalTax);
+						pdf.text(185, 220, `${totalAmntIncTax}`);
+	     	 	 }	
+					//var pdf = new jsPDF();
+					let button = document.querySelector('button');
+					//function printPDF(partyName,amount,billProductName,qty,totalAmount){
+					//	var date = new Date().toLocaleDateString('en-US');
+						pdf.setFontSize(12);
+						pdf.setTextColor(232, 107, 24);
+						pdf.setFontType('italic');
+						pdf.rect(5,5,200,200);
+						//pdf.text(150, 10, 'Original for Recipient');
+						pdf.setTextColor(232, 107, 24);
+						pdf.text(160, 16, 'Invoice No.:');
+						pdf.setTextColor(0,0,0);
+						pdf.text(160, 22, 'Date: ');
+						//pdf.text(170, 22, 'Date: '+date);
+						pdf.text(10, 15, 'Agrawal Food Product');
+						pdf.line(5, 23, 205, 23);
+						pdf.setTextColor(232, 107, 24);
+						pdf.setFontType('italic');
+						pdf.text(12, 28, 'Agrawal Food Product');
+						pdf.setFontType('normal');
+						pdf.setFontSize(10);
+						pdf.setTextColor(0,0,0);
+						
+						var addImage = 'data:image/png;base64,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'
+						pdf.addImage(addImage, 'JPEG', 5.5,31,5,5)
+						
+						pdf.text(12, 34, '37-38, industrial area,datia');
+						pdf.text(12, 38, 'Datia, Madhya Pradesh (MP-23),');
+						pdf.text(12, 42, 'Pin code 475661, India');
+						
+						var phImage = 'data:image/png;base64,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'
+						pdf.addImage(phImage, 'JPEG', 5.5,42,4.5,4.5)
+						pdf.text(12, 46, '9021242891');
+						
+						var emailImage = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAgVBMVEX////zcDXzaijzbC72l3P4tqDyZRz95+DzbjHyYxjzayv0fkz//PvzbS7yYhXyZh797uj0fEj5vKb1iV73qYz4sJb97Ob3qIr0hln4sZf+9PD6zLzzdTz5v6r1iFz96OD72c31j2f7z8D6zbz0g1PzeEH3oIH6xrT83dL2m3r2lG4LV0cFAAAIF0lEQVR4nO2dbXfiKhRGI9oUowla9dpaHV/Gaqf//wdeqbaGAyRA0HBcPB+9HW722uQcgyRJkpiYmJiYmJiYmJiYmJiYmJiYmJiYmJgHzfPx5QlvXo7PlXSj1Z8iJbiTFpPVSMO37qWEdvAnJ2nvPwXf8FB02z42b+kW8yEE/OyQtg/La8gSnJC74hHmZzm02JUB34u2D+gGKY5XwM0jAp4QN79Ngj3aFD2HksWFcJ+3fSw3SndyOQnTto/kZknfvwk7jzlHeeiSAx4Z/LiLN1AW4y3jVfyUsHEPb8YsE2jy7amQimdhMV0kmLOYip2PLZKd8G2Nbdo+xMbZMAA0LWtlx/oRgs+qjJi9JdvSaUhf2z46LxmUkPJ/yUcZeNr2wXlJr3QZSPfJsjxr+y9tH52HzIUT8SMRKs8jIM5BfweEnQI7IgSUCLFblABlQtwWZUAFIWaLCkAVIV7EqQJQSYh1oqoMaghxWlQa1BFitDjXLFVoCPFZ1BjUE2KzONUuNmkJcVlUF5kaQkwW9QYrCfFYrDAICcFSFRJEWGRECpFwCVa/USBCwO5YQBQI2fNAXIzDgAgByWQtfCIQps8JRAy+3MAiQybJs/ARJByOcVmUDL4mNYTJEJVFyeCfpJYQlUVoMNvzT+sIEVmEBrPzem8tIRqLaoMmhEgQJYMXQBNCeaIGiKgFNCJEYFE3RRNDwuDLjd6gKWHgFiWDg9J/NCQM2mKVQXPCgC1WGrQgDNaibFDcamlOGKhF2SDYS2pBGCSiZBACWhEG2PrrAe0Ig7M4g4BjCdCSMLByY2DQmjAoizNYZBQG7QkDsihNUZVBB8JgLEptQmnQhTAQi4YGnQiDaBqwyHQ1Bt0IA0A0aROXOBG2jggB9QZdCRXl5ukGILpIgB96QFdCRbm5H6KNQXfCFi1aGWxA2JpFO4NNCFuyaGmwEWErFm0NNiNUNI1bI1obbEh4d0QZsP5+kGaEd0Z0MNiY8K7lRgJcmtzR05TwjuVm1ncw6IHwbhbdDPogvJNF2aDhTWceCO9iERrMDQ36IbyDRWgwNzXoifDmTcPdoC/CGyM2AfRFeFPERoDeCG9Ybt4gYMfq1l1vhDcrN1KRsTLok1C2mPpAbGjQK+FNLL41NOiXMBnuwcbpxhZhkaHmffAnXgmTF/hoooYWocFONrcewyvhCh5Qw4oKDZ7CrG+/9kmoAGyECIvM+ahsET0SrtTPJnJGVALaI/ojVBpsgKgBtEb0RqgxyONUbqQi44roi1Br8Hske0Stwe/xZhYjeSKsMMhjbbHC4PehWVj0Q3gEgJSAZxJaWoQGKQE3KFlY9EIIpyjNRz3Q+63KjeKr2gSMZ27RB6FkkI6S5MsdUfqyzb+LSoimFj0QHmWD/OOtK6LmasIVsTmh0iCPZPHNDFB3NeGI2JhQMpj9PvMVWjQ6d6Qli+v1oBtiU0KtQRUim9Stww+3YKeTcD3oVG4aEmrOQR1i1vmsHO5zCa6hqXhF72KxGaFkMAePJYaItDjoL2EXB/hkWAqXLBwQGxFWTlH1IXUyMlMzLmYECDyNJ/2pPWITwooicw202OmQ9LCR/mxzYNIf0o5ivD+2iA0IDQzySBZPHll+eF//VJ3h+v1AGfRnPF4dojuhkUEN4umPSco+9pOv7f6DpSRTPFJUA2iN6ExoaJBHnqg//yTPc6p5XmrFsqEdoivhu6lBnl7VcxzUyaqWDa3ORUdC+EDsCoM8b7aPl2bbquGsLLoRSgZhH4TZMZvnL9OirkBaIDoRSgbrAJNkNDCfqVm2qRvOAtGF8K/dFL3kqW/2LgLa/2eyi8QY0YHQqsiUMvoq6qcqTQcbo9GSV0NEe0LLIiP8z7ap3NjLydPBrn6YSwwtWhO6GjxnfUjhotJ1JFJsNxZjGTYNW0K3c7CU4XHCmPQd5vQdpz94sv3lzMiiJeGukcFLFrvpuEgZIRkPISwtloejw0BGFu0IJYP1bUKX593qaTqfz6dPq92n0RY8VQwsWhFKBt0BfaXeog3hzp9Bf6lFtCAMErB+opoTSlOUBAFY2/qNCSWDtm3idpEsCkvPpoRe2sStUmnRkDDQc/AnVeeiGWGw5+BPJIvXiWpEGLhBHtg0+r8WTQiDPgd/IvXFH4sGhJLBEAH1rb+eEMEUPUdjsZYw+CJzjbpp1BGiMcgjlRtusYYQkUEeVdOoJoQvCgzaII/iXKwiHG1wGeSBFvtPIz0heYE7k0I3yAMRWU9Y+RKfBQ1/U89Ub50NLhBRXNqremJ5oI1eDkQ0JaQ5CoM8VYh6QgRF5poKRC0hIoM8sGnUE6IyyPOq+31EQ4iiTYjRIaoJKUE1Rc/ZqxGVhAgN8qjLjYoQSaOXo5yoCkJ0ReYalUWZEK1BHoVFiRCxQR653EBCZI1ejmQREKJsE2KgRfCuIOwGeYBF4V2ylD4A4Ok7anlXxFJ4PTBZtX1wXnIs9Qw6SMqX/HRf/88RRHincy+ZPdx7uY/gvdw7+Cpy7JHerb4Q90gWmjsHsGQ0Fxd82QlnKy5NETbo4c0Y3AHQ/UoSME15veniDdw9l2642KVm7/wDhI6/p+571U3UuNPfnM/OidlmZXzJepf6syCPOU8p/d0BCX9Se4zQdH3tInAn9yOEFptyo9zBOx3RJ2fg5tX1R9XvN/jC9vJizKyovm8AU7JCeZ/86MAeoqjmhB10q2mL1ev3jnrMSYvtsfrige+ox5uXo/3jymJiYmJiYmJiYmJiYmJiYmJiYmJiYmKQ5H8pVK4aNhGGBwAAAABJRU5ErkJggg=='
+						pdf.addImage(emailImage, 'JPEG', 5.5,55,4.5,4.5)
+						pdf.text(12, 58, 'Email: akhilrsinghal@gmail.com');
+						//pdf.text(12, 54, 'GSTIN: 293838jdsj98439');
+						//pdf.text(12, 50, 'PAN: DGXPS2247K');
+						
+						pdf.setTextColor(232, 107, 24);
+						pdf.setFontType('italic');
+						pdf.setFontSize(12);
+						pdf.text(80, 28, 'Bill to:');
+						pdf.setFontSize(10);
+						pdf.setFontType('normal');
+						pdf.setTextColor(0,0,0);
+						//pdf.text(80, 32, `${custName}`);
+						//var splitCustAddress = pdf.splitTextToSize(custAddress, 50);
+						//pdf.text(80, 36, splitCustAddress);
+						var addImage1 = 'data:image/png;base64,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'
+						pdf.addImage(addImage1, 'JPEG', 75,34,5,5)
+						//pdf.text(80, 36, `${custAddress}`);
+						pdf.text(80, 48, `${custph}`);
+						var phImage = 'data:image/png;base64,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'
+						pdf.addImage(phImage, 'JPEG', 75,44,4.5,4.5)
+						//pdf.text(80, 44, `${custEmail}`);
+						//pdf.text(80, 52, `${custGST}`);
+						//pdf.text(80, 56, 'PAN: DGXPS2247K');
+						
+						pdf.setTextColor(232, 107, 24);
+						pdf.setFontType('italic');
+						pdf.setFontSize(12);
+						pdf.text(145, 28, 'Ship to:');
+						pdf.setFontSize(10);
+						pdf.setFontType('normal');
+						pdf.setTextColor(0,0,0);
+						//pdf.text(145, 32, `${custName}`);
+						//var splitCustAddress = pdf.splitTextToSize(custAddress, 50);
+						//pdf.text(145, 36, splitCustAddress);
+						var addImage1 = 'data:image/png;base64,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'
+						pdf.addImage(addImage1, 'JPEG', 140,34,5,5)
+						//pdf.text(80, 36, `${custAddress}`);
+						//pdf.text(145, 48, `${custph}`);
+						var phImage = 'data:image/png;base64,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'
+						pdf.addImage(phImage, 'JPEG', 140,44,4.5,4.5)
+						//pdf.text(80, 44, `${custEmail}`);
+						pdf.text(145, 52, `${custGST}`);
+						//pdf.text(145, 56, 'PAN: DGXPS2247K');
+						
+						pdf.setFontSize(10);
+						
+						//horizontal line
+						pdf.line(5, 63, 205, 63);
+						
+						pdf.text(10, 68, 'PRODUCT');
+						pdf.line(5, 72, 205, 72);
+						//pdf.text(10, 78, `${productName}`);
+						//vertical line
+						pdf.line(78,63,78,205);
+						pdf.text(80, 68, 'HSN/SAC ');
+					//	pdf.line(5, 66, 205, 66);
+						//pdf.text(80, 78, `${productHsn}`);
+						pdf.line(100, 63,100,205);
+						pdf.text(102, 68, 'QTY ');
+						//pdf.line(5, 66, 205, 66);
+						//pdf.text(101, 78, `${qty}`);
+						pdf.line(118,63,118,205);
+						pdf.text(119, 68, 'UNIT PRICE');
+						//pdf.text(120, 78, `${amount}`);
+						pdf.line(143, 63,142,205);
+						pdf.text(145, 68, 'CGST(%)');
+						//pdf.text(145, 78, `${productCGST}`);
+						pdf.line(162, 63,162,205);
+						pdf.text(163, 68, 'SGST(%)');
+						//pdf.text(165, 78, `${productSGST}`);
+						pdf.line(178, 63,178,205);
+						pdf.text(180, 68, 'Total Amount ');
+						//pdf.line(5, 63, 205, 66);
+						//pdf.text(180, 78, `${amount*qty}`);
+						
+						pdf.line(5, 195, 205, 195);
+						
+						pdf.text(10, 200, 'Total');
+						//pdf.text(105,200, `${qty}`);
+						//pdf.text(120, 200, `${amount}`);
+						//var total = amount*qty;
+						//pdf.text(180, 200, `${total}`);
+						
+						pdf.setFontSize(10);
+						pdf.setTextColor(232, 107, 24);
+						pdf.text(135, 210, 'TOTAL AMOUNT (EXC. TAX)');
+						pdf.text(135, 215, 'TOTAL TAX');
+						//pdf.text(135, 215, 'SHIPPING & PACKAGING');
+						//pdf.text(135, 220, 'ROUND OFF');
+						pdf.text(135, 220, 'TOTAL AMOUNT (INC. TAX)');
+						pdf.text(135, 225, 'AUTHORIZED SIGNATORY');
+						pdf.line(135, 235, 205, 235);
+						pdf.setTextColor(0,0,0);
+						//pdf.text(197, 210, `${total}`);
+					//	$('#bill1').prop('checked', true);
+						/* var cb1 = $('#bill1').prop('checked')
+						var cb2 = $('#bill2').prop('checked')
+						var cb3= $('#bill3').prop('checked') */
+						
+						if(cb1 == true){
+							pdf.text(160, 10, 'Original for Recipient');
+							pdf.save("Original for Recipient");
+						}
+						if(cb2 == true){
+							pdf.text(160, 10, 'Transpoter Bill');
+							pdf.save('Transpoter Bill');
+						}
+						if(cb3 == true){
+							pdf.text(160, 10, 'Party Bill');
+							pdf.save('Party Bill');
+						}
+						/* else{
+							alert("Please select type of bill.")
+						} */
+						
+						pdf = new jsPDF();
+					//}
+			}
+		$( "#billDate" ).datepicker({ 
+			maxDate: new Date()
+		});
+	
+	function getProductAjaxBill(productId) {
+		if(productId == undefined){
+			productId = 0;
+		}	
+		var productRes =  $.ajax({
+		         method  : "GET",
+		         url     : 'http://localhost:8080/CustomerService/resources/customer/getProduct?productId='+productId,
+		        headers: {
+	                'Content-Type': 'application/json'
+	            }, 
+	            contentType: 'application/json',
+	            Accept : 'application/json',
+	            dataType: 'json',
+	            async: false,
+	            cache: false,
+		         success: function(response) {
+		        	 var dataset1 = [];
+			     	  	var productList = '';
+			     	 	  $.each(response.product, function(i, contact) {
+			     	 		  var row = []
+			     	 		    /* row.push(contact.id); */
+				     	 		row.push(contact.productName);
+				     	 		row.push(contact.desc);
+				     	 		row.push(contact.hsnCode);
+				     	 		row.push(contact.sgst);
+				     	 		row.push(contact.cgst);
+				     	 		row.push((new Date(contact.createDate)).toLocaleString().split(',')[0]);
+				     	 		dataset1.push(row);
+				     	 		productList += '<option value=' + contact.id + '>' + contact.productName + '</option>';
+			            });  
+			     	   // return dataset1;
+				},
+				error : function(e) {
+				}
+			});
+			return productRes.responseJSON;
+	     }
+	
+	function getCustomerAjaxBill(customerId) { 
+		if(customerId == undefined){
+			customerId = 0;
+		}
+		var CustomerRes =  $.ajax({
+		    method  : "GET",
+		    url     : 'http://localhost:8080/CustomerService/resources/customer/getCustomer?customerId='+customerId,
+		   headers: {
+		       'Content-Type': 'application/json'
+		   }, 
+		   contentType: 'application/json',
+		   Accept : 'application/json',
+		   dataType: 'json',
+		   cache: false,
+		   async: false,
+		    success: function(response) {
+		    	var dataset1 = [];
+		    //	var graphData = [];
+			  	var customerList = '';
+			 	  $.each(response.customer, function(i, contact) {
+			 		  var row = []
+			 		    /* row.push(contact.id); */
+			 		 	row.push('<a href="#" class="customerRecord" data="'+contact.id+'">'+contact.custName+'</a>');
+				 		//row.push(contact.custName);
+				 		row.push(contact.phNumber);
+				 		row.push(contact.emailId);
+				 		row.push(contact.custAddress);
+				 		row.push(contact.gstNumber);
+				 		//row.push((new Date(contact.createdDate)).toLocaleString().split(',')[0]);
+				 		row.push((new Date(contact.createdDate)).toLocaleDateString("en-au", {year: "numeric", month: "short",day: "numeric"}).replace(/\s/g,'-'));
+				 		dataset1.push(row);
+				 		customerList += '<option value=' + contact.id + '>' + contact.custName + '</option>';
+		       }); //return dataset1;
+					},
+					error : function(e) {
+					}
+				});
+				return CustomerRes.responseJSON;
+ }
+	 
+	 
+	 /* -------------------------------Customer---------------------------------- */
+	function ClearCustomerFields() {
+	    document.getElementById("custName").value = "";
+	    document.getElementById("custEmail").value = "";
+	    document.getElementById("custAddress").value = "";
+	    document.getElementById("custMobile").value = "";
+	    document.getElementById("custGST").value = "";
+	}
+    $('#btn').click(function(e) {
+        var customer = new Object();
+        customer.custName = $('#custName').val();
+        customer.phNumber = $('#custMobile').val();
+        customer.emailId = $('#custEmail').val();
+        customer.custAddress = $('#custAddress').val();
+        customer.gstNumber = $('#custGST').val();
+        var isValid = true;
+        $('input[name="customer"]').each(function() {
+          //  if ($.trim($(this).val()) == '') {
+       	   if(customer.custName == '' || customer.phNumber == '' || customer.custAddress == '' || customer.gstNumber == ''){
+       		   $('#customer_error_message').html("All Fields are required.").show().delay(1000).fadeOut("slow");
+                isValid = false;
+                $(this).css({
+                    "border": "1px solid red"
+                });
+            }
+            else {
+                $(this).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+        });
+        
+       if (isValid == false){
+           e.preventDefault();
+       }
+        else{
+        $.ajax({
+            url: 'http://localhost:8080/CustomerService/resources/customer/addCustomer',
+            type: 'POST',
+            cache: false,
+            headers: {
+                'Content-Type': 'application/json'
+            }, 
+            contentType: 'application/json',
+            Accept : 'application/json',
+            dataType: 'json',
+            data: JSON.stringify(customer),
+            success: function (data, textStatus, xhr) {
+            	getCustomerAjax();
+            	$.bootstrapGrowl(data.customer,{
+                    type: 'success',
+                    delay: 3000,
+                    align: 'center'
+                });
+            	ClearCustomerFields();
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                //console.log('Error ddddin Operation');
+            }
+        });
+    }
+});
+    getCustomerAjax();
+
+  /* $.get("http://localhost:8080/CustomerService/resources/customer/getCustomer", function(data){
+	 // console.log("Customer:::::::::::::: " + data)
+	 
+	 	var customerList = '';
+            $.each(data.customer, function(i, contact) {
+            	new Date(contact.createdDate).toDateString("yyyy-MM-dd")
+                $(".data-contacts-js").append(
+                    "<tr>"+
+    				"<td>" + contact.id + "</td>" +
+    				"<td>" + contact.custName + "</td>" +
+                    "<td>" + contact.phNumber + "</td>" +
+                    "<td>" + contact.emailId + "</td>" +
+    				 "<td>" + contact.custAddress + "</td>"+
+    				 "<td>" + (new Date(contact.createdDate)).toLocaleString() + "</td>"+
+    				"</tr>");
+            	
+            	customerList += '<option value=' + contact.id + '>' + contact.custName + '</option>';
+            });
+            $("#customerDropDown").append(customerList);
+        }); */
+  
+  
+  /* $.get("http://localhost:8080/CustomerService/resources/customer/getCustomer", function(data){
+	  	var dataset1 = [];
+	  	var customerList = '';
+	 	  $.each(data.customer, function(i, contact) {
+	 		  var row = []
+	 		    row.push(contact.id);
+		 		row.push(contact.custName);
+		 		row.push(contact.phNumber);
+		 		row.push(contact.emailId);
+		 		row.push(contact.custAddress);
+		 		row.push((new Date(contact.createdDate)).toLocaleString());
+		 		dataset1.push(row);
+		 		
+		 		customerList += '<option value=' + contact.id + '>' + contact.custName + '</option>';
+       });  
+	 	 $("#customerDropDown").append(customerList);
+	$('#customer').DataTable( {
+		data:dataset1
+   });
+}); */
+  
+$("#custMobile").keypress(function (e) {
+	     //if the letter is not digit then display error and don't type anything
+	     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+	        //display error message
+	        $("#ph_error_message").html("Digits Only").show().delay(1000).fadeOut("slow");
+	               return false;
+	    }
+	   });
+$("#sgst").keypress(function (e) {
+    //if the letter is not digit then display error and don't type anything
+	if (event.which != 46 && (event.which < 47 || event.which > 59)){
+		$("#sgst_error_message").html("Digits Only").show().delay(1000).fadeOut("slow");
+	      event.preventDefault();
+	      if ((event.which == 46) && ($(this).indexOf('.') != -1)) {
+	    	  $("#sgst_error_message").html("Digits Only").show().delay(1000).fadeOut("slow");
+	    	  event.preventDefault();
+	      }
+	    }
+  });
+$("#cgst").keypress(function (e) {
+    //if the letter is not digit then display error and don't type anything
+    if (event.which != 46 && (event.which < 47 || event.which > 59)){
+    	$("#cgst_error_message").html("Digits Only").show().delay(1000).fadeOut("slow");
+    	event.preventDefault();
+      if ((event.which == 46) && ($(this).indexOf('.') != -1)) {
+    	  $("#cgst_error_message").html("Digits Only").show().delay(1000).fadeOut("slow");
+    	  event.preventDefault();
+      }
+    }
+  });
+  
+	   
+function getCustomerAjax() { 
+	$.ajax({
+	    method  : "GET",
+	    url     : 'http://localhost:8080/CustomerService/resources/customer/getCustomer?customerId' +0,
+	   headers: {
+	       'Content-Type': 'application/json'
+	   }, 
+	   contentType: 'application/json',
+	   Accept : 'application/json',
+	   dataType: 'json',
+	   cache: false,
+	    success: function(response) {
+	    	var dataset1 = [];
+	    //	var graphData = [];
+		  	var customerList = '';
+		 	  $.each(response.customer, function(i, contact) {
+		 		  var row = []
+		 		    /* row.push(contact.id); */
+		 		 	row.push('<a href="#" class="customerRecord" data="'+contact.id+'">'+contact.custName+'</a>');
+			 		//row.push(contact.custName);
+			 		row.push(contact.phNumber);
+			 		row.push(contact.emailId);
+			 		row.push(contact.custAddress);
+			 		row.push(contact.gstNumber);
+			 		row.push((new Date(contact.createdDate)).toLocaleDateString("en-au", {year: "numeric", month: "short",day: "numeric"}).replace(/\s/g,'-'));
+			 		//row.push((new Date(contact.createdDate)).toLocaleString().split(',')[0]);
+			 		dataset1.push(row);
+			 		customerList += '<option value=' + contact.id + '>' + contact.custName + '</option>';
+	       });  
+		 	/*  var map = {};
+		 	$('select option').each(function () {
+		 	    if (map[this.value]) {
+		 	        $(this).remove()
+		 	    }
+		 	    map[this.value] = true;
+		 	}) */
+		 	 $("#customerDropDown").append(customerList);
+		 	 $("#billCustomerDropDown").append(customerList);
+		 	
+		 	$('.selectpicker').selectpicker('refresh');
+		 	/* $('.selectpicker').selectpicker({
+		 		  size: 4
+		 		}); */
+
+		 	 
+		 	function customerChart(dataset1, CustomerName){
+	        	 var chart = new CanvasJS.Chart("customerchartContainer", {
+ 	    	 	animationEnabled: true,
+ 	    	 	theme: "light2",
+ 	    	 	//backgroundColor: "#F5DEB3",
+	    	 	zoomEnabled:true,
+	    	 	exportEnabled: true,
+ 	    	 	backgroundColor: "#F5DEB3",
+ 	    	 	 title: {
+ 	    	 		text: CustomerName
+ 	    	 	}, 
+ 	    	 	axisX:{
+ 	    	        title: "Month",
+ 	    	        intervalType: "month",        
+ 	    	        labelAngle: -20
+ 	    	      },
+ 	    	 	axisY: {
+ 	    	 		title: "Amount",
+ 	    	 		titleFontSize: 24
+ 	    	 	},
+ 	    	 	legend:{
+ 	    	        verticalAlign: "bottom",
+ 	    	        horizontalAlign: "center"
+ 	    	      },
+ 	    	 	data: [{
+ 	    	 		type: "doughnut",
+ 	    	 		indexLabelFontSize: 17,
+ 	    	 		indexLabel: "{label} - #percent%",
+ 	    	 		toolTipContent: "<b>{label}:</b> {y} (#percent%)",
+ 	    	 		yValueFormatString: "#,### Rs",
+ 	    	 		toolTipContent: "{y}",
+ 	    	 		showInLegend: true,
+ 	    	 		dataPoints: dataset1
+ 	    	 	}]
+ 	    	 }); 
+	        	chart.render();
+	         }
+		 	$('#customer').DataTable({
+ 				"destroy": true,
+ 				"order": [[ 5, "desc" ]],
+				data:dataset1,
+	     		drawCallback: function( settings ) {
+	     			 $(".customerRecord").on('click',function(){
+	     				var custId = $(this).attr('data');
+	     				var html;
+	     					   $.ajax({
+	     					         method  : "GET",
+	     					         url     : 'http://localhost:8080/CustomerService/resources/customer/getCustomerRecord?customerId='+custId,
+	     					        headers: {
+	     				                'Content-Type': 'application/json'
+	     				            }, 
+	     				            contentType: 'application/json',
+	     				            Accept : 'application/json',
+	     				            dataType: 'json',
+	     					         success: function(response) {
+	     					        	var metrics = [];
+	     					        	var CustomerName = '';
+		     					         if(response.customerRecord == undefined){
+		     					        	response.customerRecord = 0; 
+		     					        	metrics = [{y:'No Data Available',label: 'No Data Available'}];
+		     					        	
+		     					         }
+		     					         else{
+     											 metrics = [{y:response.customerRecord.totalAmount,legendText:'Total Amount',label:'Total Amount'},
+     					         							{y:response.customerRecord.depositedAmount,legendText:'Deposited Amount',label:'Deposited Amount'},
+     					         							{y:response.customerRecord.remainingAmount,legendText:'Remaining Amount',label:'Remaining Amount'}];
+     											CustomerName = "Customer: "+response.customerRecord.custName;
+		     					         }
+		     					        customerChart(metrics, CustomerName);
+	     							},
+    					error : function(e) {
+    					}
+   					});
+	     	       });
+	     	    }
+	  		 });
+		},
+		error : function(e) {
+		}
+	});
+}
+  
+  /* --------------------------------Product---------------------------- */
+  
+   /* var dataSet = [
+	        	[1,"Pasta","pasta",1513230856000],[2,"Chunks","Chunks",1513230863000]
+	            ]; */
+	            getProductAjax();
+	  function getProductAjax() {
+		 $.ajax({
+		         method  : "GET",
+		         url     : 'http://localhost:8080/CustomerService/resources/customer/getProduct?productId='+0,
+		        headers: {
+	                'Content-Type': 'application/json'
+	            }, 
+	            contentType: 'application/json',
+	            Accept : 'application/json',
+	            dataType: 'json',
+	            cache: false,
+	           // async: false,
+		         success: function(response) {
+		        	 var dataset1 = [];
+			     	  	var productList = '';
+			     	 	  $.each(response.product, function(i, contact) {
+			     	 		  var row = []
+			     	 		    /* row.push(contact.id); */
+				     	 		row.push(contact.productName);
+				     	 		row.push(contact.desc);
+				     	 		row.push(contact.hsnCode);
+				     	 		row.push(contact.sgst);
+				     	 		row.push(contact.cgst);
+				     	 		row.push((new Date(contact.createDate)).toLocaleString().split(',')[0]);
+				     	 		dataset1.push(row);
+				     	 		productList += '<option value=' + contact.id + '>' + contact.productName + '</option>';
+			            });  
+			     	 	$("#productDropDown").append(productList);
+			     	 	$("#billProductDropDown").append(productList);
+			     	 	$('.selectpicker').selectpicker('refresh');
+			     	    var productTable = $('#product').DataTable({
+			     	    				"destroy": true,
+			     	    				"order": [[ 5, "desc" ]],
+			     	    				lengthChange: false,
+			     	    		        buttons: [ 'copy', 'excel', 'pdf', 'colvis' ],
+				     					data:dataset1
+			           					 });
+			     	   /* productTable.buttons().container()
+			           .insertBefore( '#example_filter' ); */
+			     	   // return dataset1;
+				},
+				error : function(e) {
+				}
+			});
+			//return productRes.responseJSON;
+	     }
+	  function ClearProductFields() {
+		    document.getElementById("productName").value = "";
+		    document.getElementById("productDesc").value = "";
+		    document.getElementById("hsnCode").value = "";
+		    document.getElementById("sgst").value = "";
+		    document.getElementById("cgst").value = "";
+		}
+	  
+  $('#productbtn').click(function(e) {
+	  //      alert("Hello");
+	        var product = new Object();
+	        product.productName = $('#productName').val();
+	        product.desc = $('#productDesc').val();
+	        product.hsnCode = $('#hsnCode').val();
+	        product.cgst = $('#cgst').val();
+	        product.sgst = $('#sgst').val();
+	        
+	        
+	         /* if(product.productName == '' || product.desc == ''){
+	        	$('#error_message').html("All Fields are required.");
+	        }  */
+	        var isValid = true;
+	         $('input[name="product"]').each(function() {
+	           //  if ($.trim($(this).val()) == '') {
+	        	   if(product.productName == '' || product.desc == '' || product.hsnCode == ''){
+	        		   $('#error_message').html("All Fields are required.").show().delay(1000).fadeOut("slow");
+	                 isValid = false;
+	                 $(this).css({
+	                     "border": "1px solid red"
+	                 });
+	             }
+	             else {
+	                 $(this).css({
+	                     "border": "",
+	                     "background": ""
+	                 });
+	             }
+	         });
+	         
+	        if (isValid == false){
+	            e.preventDefault();
+	        }
+	         else{
+	        $.ajax({
+	            url: 'http://localhost:8080/CustomerService/resources/customer/addProduct',
+	            type: 'POST',
+	            headers: {
+	                'Content-Type': 'application/json'
+	            }, 
+	            contentType: 'application/json',
+	            Accept : 'application/json',
+	            dataType: 'json',
+	            data: JSON.stringify(product),
+	            success: function (data, textStatus, xhr) {
+	            	//console.log("asfdsadfsdf",data.Success);
+	            	//if(data.Success == "Successfully done!"){
+	            		//$('#product').DataTable().ajax.reload();
+	            		//refProductTable.ajax.reload();
+	            		getProductAjax();
+	            		$.bootstrapGrowl(data.product,{
+	                        type: 'success',
+	                        delay: 3000,
+	                        align: 'center'
+	                    });
+	            		ClearProductFields();
+	            	//}
+	            },
+	            error: function (xhr, textStatus, errorThrown) {
+	                //console.log('Error ddddin Operation');
+	            }
+	        });
+  }
+	});
+			/* ------------------------------ order----------------------------------------------- */
+			
+		function ClearOrderFields() {
+		    document.getElementById("orderQty").value = "";
+		    document.getElementById("itemprice").value = "";
+		    document.getElementById("orderDate").value = "";
+		}
+		$( "#orderDate" ).datepicker({ 
+			maxDate: new Date()
+		});
+		 var order_Date = $('#orderDate').val();
+	    //Order button
+	    $('#orderbtn').click(function(e) {
+	        var customer = new Object();
+	        customer.customerId = $('#customerDropDown').val();
+	        customer.productId = $('#productDropDown').val();
+	        customer.quantity = $('#orderQty').val();
+	        customer.amount = $('#itemprice').val();
+	        customer.netAmount = $('#totalAmount').val();
+	        customer.orderDate = Date.parse($('#orderDate').val());
+	        var isValid = true;
+	        $('input[name="order"]').each(function() {
+	          //  if ($.trim($(this).val()) == '') {
+	       	   if(customer.quantity == '' || customer.orderDate == ''|| customer.amount == ''){
+	       		   $('#order_error_message').html("All Fields are required.").show().delay(1000).fadeOut("slow");
+	                isValid = false;
+	                $(this).css({
+	                    "border": "1px solid red"
+	                });
+	            }
+	            else {
+	                $(this).css({
+	                    "border": "",
+	                    "background": ""
+	                });
+	            }
+	        });
+	       if (isValid == false){
+	           e.preventDefault();
+	       }
+	        else{
+	        $.ajax({
+	            url: 'http://localhost:8080/CustomerService/resources/customer/addOrder',
+	            type: 'POST',
+	            headers: {
+	                'Content-Type': 'application/json'
+	            }, 
+	            contentType: 'application/json',
+	            Accept : 'application/json',
+	            dataType: 'json',
+	            data: JSON.stringify(customer),
+	            success: function (data, textStatus, xhr) {
+	            	getOrderAjax();
+	            	//getGraphAjax();
+	            	getDashBoardYearAjax();
+	            	$.bootstrapGrowl(data.order,{
+                        type: 'success',
+                        delay: 2000,
+                        align: 'center'
+                    });
+	            	ClearOrderFields();
+	            },
+	            error: function (xhr, textStatus, errorThrown) {
+	                //console.log('Error ddddin Operation');
+	            }
+	        });
+	    }
+	});
+	    $("#orderQty").keypress(function (e) {
+  		     //if the letter is not digit then display error and don't type anything
+  		     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+  		        //display error message
+  		        $("#qty_error_message").html("Digits Only").show().delay(1000).fadeOut("slow");
+  		               return false;
+  		    }
+  		   });
+
+	    $("#itemprice").keypress(function (e) {
+ 		     //if the letter is not digit then display error and don't type anything
+ 		     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+ 		        //display error message
+ 		        $("#price_error_message").html("Digits Only").show().delay(1000).fadeOut("slow");
+ 		               return false;
+ 		    }
+ 		   });
+	    $("#orderDate").keypress(function (e) {
+		     //if the letter is not digit then display error and don't type anything
+		     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+		        //display error message
+		        $("#order_error").html("Digits Only").show().delay(1000).fadeOut("slow");
+		               return false;
+		    }
+		   });
+	    
+	    $( "#order_from_date" ).datepicker({  maxDate: new Date() });
+		$( "#order_to_date" ).datepicker({  maxDate: new Date() });
+		  
+		
+		
+		   // code start for filter on order page
+		     $('#order_filter').click(function(e) {
+			   var start_Date = $('#order_from_date').val();
+			   var end_Date = $('#order_to_date').val();
+			   if(start_Date > end_Date){
+					alert("From date can't be greater than To date.")
+			   }
+			   
+			   else{
+			   var isValid = true;
+		        $('input[name="filter_date"]').each(function() {
+		       	   if(start_Date == '' || end_Date == ''){
+		       		   $('#order_filter_error_message').html("All Fields are required.").show().delay(1000).fadeOut("slow");
+		                isValid = false;
+		                $(this).css({
+		                    "border": "1px solid red"
+		                });
+		            }
+		            else {
+		                $(this).css({
+		                    "border": "",
+		                    "background": ""
+		                });
+		            }
+		        });
+		        
+		       if (isValid == false){
+		           e.preventDefault();
+		       }
+		        else{
+			   $.ajax({
+			    	method  : "GET",
+				    url     : 'http://localhost:8080/CustomerService/resources/customer/getOrderByDate?startDate='+start_Date+'&endDate='+end_Date,
+				   headers: {
+				       'Content-Type': 'application/json'
+				   }, 
+				   contentType: 'application/json',
+				   Accept : 'application/json',
+				   dataType: 'json',
+		           success: function(response) {
+		           var dataset1 = [];
+		           var rsp = getTranscationAjaxExmpl();
+		           var orderIdNill = [];
+		           var d = new Date();
+		           var n = d.getFullYear();
+		     	   for(var i = 0 ; i < rsp.transaction.length;i++){
+		     	  		if(rsp.transaction[i].remainingAmount === 0){
+		     	  			orderIdNill.push(rsp.transaction[i].order.id);
+		     	  		}
+		     	  	}
+		     	   
+			   	 	  $.each(response.orderByDate, function(i, contact) {
+				   	 	  var row = []
+				   	 	  if(orderIdNill.includes(contact.id)){
+				   	 		row.push(contact.customer.custName);
+				   	 	    //row.push('<b style="color:green";>Cleared:</b>'+contact.orderPerCustomer);
+				   	 	    row.push('<b style="color:green";>'+contact.orderPerCustomer+'-'+d.getFullYear()+'</b>');
+				   	 	    //+'-'+d.getFullYear()
+			     	 		row.push(contact.product.productName);
+			     	 		row.push(contact.quantity);
+			     	 		row.push(contact.amount);
+			     	 		row.push(contact.netAmount);
+			     	 		row.push((new Date(contact.createdDate)).toLocaleDateString("en-au", {year: "numeric", month: "short",day: "numeric"}).replace(/\s/g,'-'));
+			     	 		//row.push((new Date(contact.createdDate)).toLocaleString().split(',')[0]);
+					     	dataset1.push(row);
+				   		  }
+				   	 	else{
+					   	 	row.push(contact.customer.custName);
+			     	 		row.push('<a href="#" class="customerOrder" data="'+contact.customer.id+'">'+contact.orderPerCustomer+'</a>');
+			     	 		//+'-'+d.getFullYear()
+			     	 		row.push(contact.product.productName);
+			     	 		row.push(contact.quantity);
+			     	 		row.push(contact.amount);
+			     	 		row.push(contact.netAmount);
+			     	 		row.push((new Date(contact.createdDate)).toLocaleDateString("en-au", {year: "numeric", month: "short",day: "numeric"}).replace(/\s/g,'-'));
+			     	 		//row.push((new Date(contact.createdDate)).toLocaleString().split(',')[0]);
+					     	dataset1.push(row);
+	     	 		  		}
+			   	 		});
+				     	 		$('#order').DataTable( {
+						     		"destroy": true,
+							   		"order": [[ 6, "desc" ]],
+						     		data:dataset1,
+						     		drawCallback: function( settings ) {
+						     			 $(".customerOrder").on('click',function(){
+						     				var customerId = $(this).attr('data');
+						     				 var orderPerCustId = $(this).text();
+						     				// alert(orderPerCustId);
+						     				 var custName = "";
+						     				 var orderId = "";
+						     				 var custId = "";
+						     				 var orderPercust = "";
+						     				var totalAmnt = "";
+						     				 for(var i =0; i<response.orderByDate.length;i++){
+						     					 //console.log("custname: "+data.order[i].customer.id);
+						     					 if((response.orderByDate[i].customer.id == customerId) && (response.orderByDate[i].orderPerCustomer== orderPerCustId.split('-')[0]) ){
+						     						custName = response.orderByDate[i].customer.custName;
+						     					 	orderId = response.orderByDate[i].id;
+						     					 	custId = response.orderByDate[i].customer.id; 
+						     					 	orderPercust = response.orderByDate[i].orderPerCustomer;
+						     					 	totalAmnt = response.orderByDate[i].netAmount;
+						     					 }
+						     				 }
+						     				 // method call
+						     				var rmnAmount = '';
+						     				var totlAmount = '';
+						     				var txndata='';
+						     				$.ajax({
+							         method  : "GET",
+							         url     : 'http://localhost:8080/CustomerService/resources/customer/getTransactionByOrderId?customerId='+custId+'&orderPerCustId='+orderPercust+'&orderId='+orderId,
+							        headers: {
+						                'Content-Type': 'application/json'
+						            }, 
+						            contentType: 'application/json',
+						            Accept : 'application/json',
+						            async: false,
+						            dataType: 'json',
+							         success: function(response) {
+							        	 txndata = response;
+									},
+									error : function(e) {
+									}
+								});
+				     				//console.log(txndata.transactionPerOrderId);
+				     				if(txndata.transactionPerOrderId == 'empty'){
+				     					rmnAmount = totalAmnt;
+				     					totlAmount = totalAmnt;
+				     					}
+				     				else{
+				     					rmnAmount = txndata.transactionPerOrderId.remainAmount;
+				     					totlAmount = txndata.transactionPerOrderId.totalAmount;
+				     				}
+				     				
+				     				 var html = "<label for='name'>Deposit Amount</label>"+ "<br>Customer:" +custName + ", Order Id: " +orderPerCustId+
+				     							", Total Amount: " +totlAmount+	", Remaining Amount: " +rmnAmount+
+				     	               			"<input type='text'class='form-control' id='depositAmount' name='deposit_Amount'>"+
+				     	               			"<span id='deposite_message_order' class = 'text-danger'></span>"	 
+						     				 /* var customerId = $(this).attr('data');
+						     				 var orderPerCustId = $(this).text();
+						     				 
+						     				console.log("data: ",response.orderByDate)
+						     				 var html = "<label for='name'>Deposit Amount</label>"+
+						     	               			"<input type='text'class='form-control' id='depositAmount' name='deposit_Amount'>"+
+						     	               			"<span id='deposite_message_order' class = 'text-danger'></span>" */
+						     				BootstrapDialog.show({
+						     					title: 'Edit Customer',
+						     					id:"cust",
+						     					message: html,
+						     					closable: true,
+				   					           closeByBackdrop: true,
+				   					           closeByKeyboard: true,
+					     					   buttons: [{ 
+					     					       label: 'Submit',
+					     					               autospin: false,
+					     					       			action: function(dialogRefAlert){
+					     					       			 var transaction = {};
+					     					       			transaction.orderPerCustomer = orderPerCustId;
+					     					       			transaction.customerId = customerId;
+					     					       			transaction.depositAmount = $('#depositAmount').val();
+					     					       			transaction.orderId = orderId;
+					     						        if (transaction.depositAmount == ''){
+					     						        	 $('#deposite_message_order').html("All Fields are required.").show().delay(1000).fadeOut("slow");
+					     						        	$('#depositAmount').css({
+					     					                     "border": "1px solid red"
+					     					                 });
+					     						        }
+					     						        else{
+								     					   $.ajax({
+								     					         method  : "POST",
+								     					         url     : 'http://localhost:8080/CustomerService/resources/customer/addTransaction',
+								     					         data    : JSON.stringify(transaction), 
+								     					        headers: {
+								     				                'Content-Type': 'application/json'
+								     				            }, 
+								     				            contentType: 'application/json',
+								     				            Accept : 'application/json',
+								     				            dataType: 'json',
+								     					         success: function(response) {
+								     					        	getTranscationAjax();
+								     					        	$.bootstrapGrowl(response.txn,{
+								     				                    type: 'success',
+								     				                    delay: 3000,
+								     				                    align: 'center'
+								     				                });
+								     					        	if(response.txn == "Amount deposited successfully!")
+								     					        	dialogRefAlert.close();
+								     						},
+					     					error : function(e) {
+					     					}
+					     					});
+					     						         }
+					     					       }
+					     					   }, {
+					     					               label: 'Cancel', 
+					     					               action: function(dialogRef) {
+					     					               	dialogRef.close();
+					     					               }
+					     					   }]
+					     					   }); 
+						     	       });
+						     	    }
+					            });
+		       }
+			   });
+		        }
+			   }
+		     });
+		     // code end for filter on order page
+		     
+		     $('#order_rsetfilter').click(function() {
+		    	 getOrderAjax();
+		    	 document.getElementById("order_from_date").value = "";
+		    	 document.getElementById("order_to_date").value = "";
+		    	 
+				 });
+	    
+	    var d = new Date();
+	 	    var month = d.getMonth()+1;
+	 	    var year = d.getFullYear();
+	    getOrderAjax();
+	    function getOrderAjax() { 
+	   	 $.get("http://localhost:8080/CustomerService/resources/customer/getOrder", function(data){
+		     	  	var dataset1 = [];
+		     	  	var rsp = getTranscationAjaxExmpl();
+		     	  	var orderIdNill = []  ;
+		     	  	var d = new Date();
+		     	    //var n = d.getFullYear();
+		     	  	for(var i = 0 ; i < rsp.transaction.length;i++){
+		     	  		if(rsp.transaction[i].remainingAmount === 0){
+		     	  			orderIdNill.push(rsp.transaction[i].order.id);
+		     	  		}
+		     	  	}
+		     	  	$.each(data.order, function(i, contact) {
+		     	  		var row = [] ;
+		     	 		 if(orderIdNill.includes(contact.id)){
+		     	 			row.push(contact.customer.custName);
+		     	 			//row.push('<b>'+contact.orderPerCustomer+'(Order clear)</b>');
+		     	 			row.push('<b style="color:green";>'+contact.orderPerCustomer+'-'+d.getFullYear()+'</b>');
+		     	 			//+'-'+d.getFullYear()
+			     	 		row.push(contact.product.productName);
+			     	 		row.push(contact.quantity);
+			     	 		row.push(contact.amount);
+			     	 		row.push(contact.netAmount);
+			     	 		//row.push((new Date(contact.createdDate)).toLocaleString().split(',')[0]);
+			     	 		row.push((new Date(contact.createdDate)).toLocaleDateString("en-au", {year: "numeric", month: "short",day: "numeric"}).replace(/\s/g,'-'));
+			     	 		dataset1.push(row);
+		     	 		 }
+		     	 		 else{
+			     	 		row.push(contact.customer.custName);
+			     	 		row.push('<a href="#" class="customerOrder" data="'+contact.customer.id+'">'+contact.orderPerCustomer+'</a>');
+			     	 		//+'-'+d.getFullYear()
+			     	 		row.push(contact.product.productName);
+			     	 		row.push(contact.quantity);
+			     	 		row.push(contact.amount);
+			     	 		row.push(contact.netAmount);
+			     	 		//row.push((new Date(contact.createdDate)).toLocaleString().split(',')[0]);
+			     	 		row.push((new Date(contact.createdDate)).toLocaleDateString("en-au", {year: "numeric", month: "short",day: "numeric"}).replace(/\s/g,'-'));
+			     	 		dataset1.push(row);
+	     	 		  }
+	            });  
+		     	$('#order').DataTable( {
+		     		"destroy": true,
+			   		"order": [[ 6, "desc" ]],
+		     		data:dataset1,
+		     		drawCallback: function( settings ) {
+		     			 $(".customerOrder").on('click',function(){
+		     				 var customerId = $(this).attr('data');
+		     				 var orderPerCustId = $(this).text();
+		     				 var custName = "";
+		     				 var orderId = "";
+		     				 var custId = "";
+		     				 var orderPercust = "";
+		     				var totalAmnt = "";
+		     				 for(var i =0; i<data.order.length;i++){
+		     					 //console.log("custname: "+data.order[i].customer.id);
+		     					 if((data.order[i].customer.id == customerId) && (data.order[i].orderPerCustomer == orderPerCustId.split('-')[0]) ){
+		     						custName = data.order[i].customer.custName;
+		     					 	orderId = data.order[i].id;
+		     					 	custId = data.order[i].customer.id; 
+		     					 	orderPercust = data.order[i].orderPerCustomer;
+		     					 	totalAmnt = data.order[i].netAmount;
+		     					 }
+		     				 }
+		     				 // method call
+		     				var rmnAmount = '';
+		     				var totlAmount = '';
+		     				var txndata='';
+		     				$.ajax({
+			         method  : "GET",
+			         url     : 'http://localhost:8080/CustomerService/resources/customer/getTransactionByOrderId?customerId='+custId+'&orderPerCustId='+orderPercust+'&orderId='+orderId,
+			        headers: {
+		                'Content-Type': 'application/json'
+		            }, 
+		            contentType: 'application/json',
+		            Accept : 'application/json',
+		            async: false,
+		            dataType: 'json',
+			         success: function(response) {
+			        	 txndata = response;
+					},
+					error : function(e) {
+					}
+				});
+     				//console.log(txndata.transactionPerOrderId);
+     				if(txndata.transactionPerOrderId == 'empty'){
+     					rmnAmount = totalAmnt;
+     					totlAmount = totalAmnt;
+     					}
+     				else{
+     					rmnAmount = txndata.transactionPerOrderId.remainAmount;
+     					totlAmount = txndata.transactionPerOrderId.totalAmount;
+     				}
+     				
+     				 var html = "<label for='name'>Deposit Amount</label>"+ "<br>Customer:" +custName + ", Order Id: " +orderPerCustId+
+     							", Total Amount: " +totlAmount+	", Remaining Amount: " +rmnAmount+
+     	               			"<input type='text'class='form-control' id='depositAmount' name='deposit_Amount'>"+
+     	               			"<span id='deposite_message_order' class = 'text-danger'></span>"
+		     				BootstrapDialog.show({
+		     					title: 'Edit Customer',
+		     					id:"cust",
+		     					message: html,
+		     					closable: true,
+   					            closeByBackdrop: true,
+   					            closeByKeyboard: true,
+	     					    buttons: [{ 
+	     					       label: 'Submit',
+	     					               autospin: false,
+	     					       			action: function(dialogRefAlert){
+	     					       			 var transaction = {};
+	     					       			transaction.orderPerCustomer = orderPerCustId;
+	     					       			transaction.customerId = customerId;
+	     					       			transaction.depositAmount = $('#depositAmount').val();
+	     					       			transaction.orderId = orderId;
+	     						        if (transaction.depositAmount == ''){
+	     						        	 $('#deposite_message_order').html("All Fields are required.").show().delay(1000).fadeOut("slow");
+	     						        	$('#depositAmount').css({
+	     					                     "border": "1px solid red"
+	     					                 });
+	     						        }
+	     						       else if(isNaN(Number(transaction.depositAmount))){
+	     						        	 $('#deposite_message_order').html("Only numbers are allowed.").show().delay(1000).fadeOut("slow");
+	     						        }
+	     						        else{
+				     					   $.ajax({
+				     					         method  : "POST",
+				     					         url     : 'http://localhost:8080/CustomerService/resources/customer/addTransaction',
+				     					         data    : JSON.stringify(transaction), 
+				     					        headers: {
+				     				                'Content-Type': 'application/json'
+				     				            }, 
+				     				            contentType: 'application/json',
+				     				            Accept : 'application/json',
+				     				            dataType: 'json',
+				     					         success: function(response) {
+				     					        	getTranscationAjax();
+				     					        	$.bootstrapGrowl(response.txn,{
+				     				                    type: 'success',
+				     				                    delay: 3000,
+				     				                    align: 'center'
+				     				                });
+				     					        	if(response.txn == "Amount deposited successfully!")
+				     					        		dialogRefAlert.close();
+				     							},
+						     					error : function(e) {
+						     					}
+	     									});
+				     					  getOrderAjax();
+	     						         }
+	     					       }
+	     					   }, {
+	     					               label: 'Cancel', 
+	     					               action: function(dialogRef) {
+	     					               	dialogRef.close();
+	     					               }
+	     					   }]
+	     					   }); 
+		     	       });
+		     	    }
+	            });
+	        });
+ }
+	    
+	    /* transaction table */
+	    
+	     $('#txn_rsetfilter').click(function() {
+		   getTranscationAjax();
+		   document.getElementById("from_date").value = "";
+		   document.getElementById("to_date").value = "";
+		 });
+	    
+	    
+	    ////////////////////////
+	     function getTranscationAjaxExmpl() {  
+		   var txnRes =  $.ajax({
+			    method  : "GET",
+			    url     : 'http://localhost:8080/CustomerService/resources/customer/getTransaction',
+			   headers: {
+			       'Content-Type': 'application/json'
+			   }, 
+			   contentType: 'application/json',
+			   Accept : 'application/json',
+			   dataType: 'json',
+			   async: false,
+			    success: function(response) {
+			    	var dataset1 = [];
+			    	//var counter =1;
+		   	 	  $.each(response.transaction, function(i, contact) {
+		   	 		var row = []
+		   	 		    	/* row.push(contact.id); */
+			     	 		row.push(contact.customer.custName);
+			     	 		row.push(contact.customer.phNumber);
+			     	 		row.push(contact.orderPerCustomer);
+			     	 		row.push(contact.totalAmount);
+			     	 		row.push(contact.submittedAmount);
+				   	 		row.push(contact.remainingAmount);
+			     	 		//row.push((new Date(contact.createdDate)).toLocaleString().split(',')[0]);
+			     	 		row.push((new Date(contact.createdDate)).toLocaleDateString("en-au", {year: "numeric", month: "short",day: "numeric"}).replace(/\s/g,'-'));
+			     	 		dataset1.push(row);
+			     	 		//counter++;
+		          });  
+				},
+				error : function(e) {
+				}
+			});
+		   return txnRes.responseJSON;
+	 }
+	    
+	    ////////////////////////
+		   
+	    getTranscationAjax();
+	   function getTranscationAjax() {  
+	    $.ajax({
+		    method  : "GET",
+		    url     : 'http://localhost:8080/CustomerService/resources/customer/getTransaction',
+		   headers: {
+		       'Content-Type': 'application/json'
+		   }, 
+		   contentType: 'application/json',
+		   Accept : 'application/json',
+		   dataType: 'json',
+		    success: function(response) {
+		    	var dataset1 = [];
+		    	var d = new Date();
+	   	 	  $.each(response.transaction, function(i, contact) {
+	   	 		var row = []
+	   	 		    	/* row.push(contact.id); */
+		     	 		row.push(contact.customer.custName);
+		     	 		row.push(contact.customer.phNumber);
+		     	 		row.push(contact.orderPerCustomer+'-'+d.getFullYear());
+		     	 		row.push(contact.totalAmount);
+		     	 		row.push(contact.submittedAmount);
+		     	 		 if(contact.remainingAmount==0){
+			   	 			var test = contact.remainingAmount = "<b style='color:green;'>Cleared</b>";
+			   	 			row.push(test);
+			   	 			//console.log("inside if")
+			   	 		  }
+			   	 		  else{ 
+			   	 			row.push(contact.remainingAmount);
+			   	 		//console.log("inside else")
+			   	 		  }
+		     	 		row.push((new Date(contact.createdDate)).toLocaleDateString("en-au", {year: "numeric", month: "short",day: "numeric"}).replace(/\s/g,'-'));
+		     	 		//row.push((new Date(contact.createdDate)).toLocaleString().split(',')[0]);
+		     	 		dataset1.push(row);
+		     	 		//counter++;
+	          });  
+	   	$('#transaction').DataTable( {
+	   		"destroy": true,
+	   		"order": [[ 6, "desc" ]],
+	   		//"ordering": false,
+	   		data:dataset1
+	      });
+			},
+			error : function(e) {
+			}
+	});
+ }
+	   
+	   $( "#from_date" ).datepicker({  maxDate: new Date() });
+	   $( "#to_date" ).datepicker({  maxDate: new Date() });
+	  
+	     $('#txn_filter').click(function(e) {
+		   var start_Date = $('#from_date').val();
+		   var end_Date = $('#to_date').val();
+		   
+		   if(start_Date > end_Date){
+				alert("Start date can't be greater than To Date.")
+		   }
+		   else{
+			   var isValid = true;
+		        $('input[name="txn_date"]').each(function() {
+		          //  if ($.trim($(this).val()) == '') {
+		       	   if(start_Date == '' || end_Date == ''){
+		       		   $('#txn_filter_error_message').html("All Fields are required.").show().delay(1000).fadeOut("slow");
+		                isValid = false;
+		                $(this).css({
+		                    "border": "1px solid red"
+		                });
+		            }
+		            else {
+		                $(this).css({
+		                    "border": "",
+		                    "background": ""
+		                });
+		            }
+		        });
+	        
+		       if (isValid == false){
+		           e.preventDefault();
+		       }
+		        else{
+				  	 $.ajax({
+				    	method  : "GET",
+					    url     : 'http://localhost:8080/CustomerService/resources/customer/getTransactionByDate?startDate='+start_Date+'&endDate='+end_Date,
+					   headers: {
+					       'Content-Type': 'application/json'
+					   }, 
+					   contentType: 'application/json',
+					   Accept : 'application/json',
+					   dataType: 'json',
+			         //  data: {startDate: start_Date, endDate: end_Date},
+			           success: function(response) {
+			        	   var dataset1 = [];
+			        	   var d = new Date();
+				   	 	  $.each(response.transByDate, function(i, contact) {
+				   	 		var row = []
+				   	 		    	/* row.push(contact.id); */
+					     	 		row.push(contact.customer.custName);
+					     	 		row.push(contact.customer.phNumber);
+					     	 		row.push(contact.orderPerCustomer+'-'+d.getFullYear());
+					     	 		row.push(contact.totalAmount);
+					     	 		row.push(contact.submittedAmount);
+					     	 		 if(contact.remainingAmount==0){
+						   	 			var test = contact.remainingAmount = "<b style='color:green;'>Cleared</b>";
+						   	 			row.push(test);
+						   	 			//console.log("inside if")
+						   	 		  }
+						   	 		  else{ 
+						   	 			row.push(contact.remainingAmount);
+						   	 		//console.log("inside else")
+						   	 		  }
+					     	 		row.push((new Date(contact.createdDate)).toLocaleDateString("en-au", {year: "numeric", month: "short",day: "numeric"}).replace(/\s/g,'-'));
+					     	 		//row.push((new Date(contact.createdDate)).toLocaleString().split(',')[0]);
+					     	 		dataset1.push(row);
+					     	 		//counter++;
+				          });  
+				   	$('#transaction').DataTable( {
+				   		"destroy": true,
+				   		"order": [[ 6, "desc" ]],
+				   		data:dataset1
+				      });
+			           }
+			       });
+		        }
+		        }
+	   });
+	     
+	     
+	   /*   getGraphAjax();
+	     function getGraphAjax(){ 
+	     $.ajax({
+			    method  : "GET",
+			    url     : 'http://localhost:8080/CustomerService/resources/customer/getGraphData',
+			   headers: {
+			       'Content-Type': 'application/json'
+			   }, 
+			   contentType: 'application/json',
+			   Accept : 'application/json',
+			   dataType: 'json',
+			    success: function(response) {
+			    	var dataset1 = [];
+			    	var monthList = '';
+			    	var dataPoints1 = [];
+		   	 	  $.each(response.graphData, function(i, contact) {
+		   	 		var row = [];
+		   	 		var month = '';
+			     	 	  dataset1.push({
+			     	 		x:  new Date(2018, contact.month-1),
+			     	 		//x:  contact.month,
+			     	 		y: contact.totalMonthAmount
+			     	 		 });  
+		          });  
+		   	 		var chart = new CanvasJS.Chart("chartContainer", {
+    	    	 	animationEnabled: true,
+    	    	 	theme: "light2",
+    	    	 	/* title: {
+    	    	 		text: "Monthly Sales Data"
+    	    	 	}, 
+    	    	 	axisX:{
+    	    	        title: "Month",
+    	    	       // intervalType: "month",        
+    	    	        labelAngle: -20
+    	    	      },
+    	    	 	axisY: {
+    	    	 		title: "Amount",
+    	    	 		titleFontSize: 24,
+    	    	 		valueFormatString: "#,###,.##K",
+    	    	 	},
+    	    	 	data: [{
+    	    	 		type: "column",
+    	    	 		xValueFormatString:"Month ###",
+    	    	 		yValueFormatString: "#,### Rs",
+    	    	 		toolTipContent: "{y}",
+    	    	 		dataPoints: dataset1
+    	    	 	}]
+    	    	 });
+    	    	 chart.render();
+				},
+				error : function(e) {
+				}
+		});
+	    } */
+	     
+	     
+	     /* customer graph */
+	     $('#graphrsetfilter').click(function() {
+	    	 getCustomerGraphAjax();
+				 });
+	     getCustomerGraphAjax();
+	   function getCustomerGraphAjax(){  
+	     $.ajax({
+			    method  : "GET",
+			    url     : 'http://localhost:8080/CustomerService/resources/customer/getCustomerRecord?customerId=',
+			   headers: {
+			       'Content-Type': 'application/json'
+			   }, 
+			   contentType: 'application/json',
+			   Accept : 'application/json',
+			   dataType: 'json',
+			   success: function(response) {
+		        	var metrics = [];
+			         if(response.customerRecord == undefined){
+			        	response.customerRecord = 0; 
+			        	metrics = [{y:'No Data Available',label: 'No Data Available'}];
+			         }
+			         else{
+							metrics = [{y:response.customerRecord.totalAmount,legendText:'Total Amount',label:'Total Amount'},
+			         		{y:response.customerRecord.depositedAmount,legendText:'Deposited Amount',label:'Deposited Amount'},
+			         		{y:response.customerRecord.remainingAmount,legendText:'Remaining Amount',label:'Remaining Amount'}];
+			         }
+			         
+			         
+			         var chart = new CanvasJS.Chart("customerchartContainer", {
+			 	    	 	animationEnabled: true,
+			 	    	 	theme: "light2",
+			 	    	 	zoomEnabled:true,
+				    	 	exportEnabled: true,
+			 	    	 	backgroundColor: "#F5DEB3",
+			 	    	 	//backgroundColor: "#5bc0de",
+			 	    	 	 title: {
+			 	    	 		text: "All Customers"
+			 	    	 	}, 
+			 	    	 	axisX:{
+			 	    	        title: "Month",
+			 	    	        intervalType: "month",        
+			 	    	        labelAngle: -20
+			 	    	      },
+			 	    	 	axisY: {
+			 	    	 		title: "Amount",
+			 	    	 		titleFontSize: 24
+			 	    	 	},
+			 	    	 	legend:{
+			 	    	        verticalAlign: "bottom",
+			 	    	        horizontalAlign: "center"
+			 	    	      },
+			 	    	 	data: [{
+			 	    	 		type: "doughnut",
+			 	    	 		indexLabelFontSize: 17,
+			 	    	 		indexLabel: "{label} - #percent%",
+			 	    	 		toolTipContent: "<b>{label}:</b> {y} (#percent%)",
+			 	    	 		yValueFormatString: "#,### Rs",
+			 	    	 		toolTipContent: "{y}",
+			 	    	 		showInLegend: true,
+			 	    	 		dataPoints: metrics
+			 	    	 	}]
+			 	    	 });
+				        	chart.render();
+				},
+				error : function(e) {
+				}
+		});
+	     }
+	     
+	   /*--------------------- DashBoard ---------------------------*/
+	   
+	/* 	 var selectedYear = '';
+    $('#year').datepicker({
+        changeMonth: false,
+        changeYear: true,
+        showButtonPanel: true,
+        yearRange: '1950:2014',
+        dateFormat: 'yy',
+        onClose: function(dateText, inst) { 
+        	selectedYear = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+            $(this).datepicker('setDate', new Date(year, 0, 1));
+            alert(selectedYear)
+        }}); */
+        var d = new Date();
+        var currMonth = d.getMonth();
+        var currYear = d.getFullYear();
+        var startDate = new Date(currYear, currMonth, 1);
+        
+      	 $('#month').datepicker( {
+            changeMonth: true,
+            changeYear: true,
+            showButtonPanel: true,
+            dateFormat: 'MM yy',
+            yearRange: "-5:+0",
+            onClose: function(dateText, inst) { 
+                $(this).datepicker('setDate', new Date(inst.selectedYear, inst.selectedMonth, 1));
+            }
+        }).datepicker("setDate", new Date());
+        
+        var selectedVal = [];
+        var selectedYear = '';
+        var selectedMonth = '';
+        
+        selectedVal = $('#month').val().split(" ");
+    	selectedMonth = selectedVal[0];
+    	selectedYear = selectedVal[1];
+        $('#yearbtn').click(function(e) {
+        	selectedVal = $('#month').val().split(" ");
+        	selectedMonth = selectedVal[0];
+        	selectedYear = selectedVal[1];
+        	if(selectedYear == ""){
+        		selectedYear = '2018';
+        		}else{
+        	getDashBoardYearAjax();
+        		}
+        }); 
+        getDashBoardYearAjax(selectedYear,selectedMonth);
+        function getDashBoardYearAjax(){ 
+        	if(selectedYear == ""){
+        		selectedYear = '2018';
+        		}
+		     $.ajax({
+				    method  : "GET",
+				    url     : 'http://localhost:8080/CustomerService/resources/customer/getDashBoard?year='+selectedYear+'&month='+selectedMonth,
+				   headers: {
+				       'Content-Type': 'application/json'
+				   }, 
+				   contentType: 'application/json',
+				   Accept : 'application/json',
+				   dataType: 'json',
+				    success: function(response) {
+				    	var dataset1 = [];
+				    	var monthList = '';
+				    	var yearChartArr = [];
+				    	var monthChartArr = [];
+				   	    var qtyChartArr = [];
+				   		var qtyAmtChartArr = [];
+				   		var pendingCustAmnt = [];
+				  	 	 $.each(response.dashBoard.monthSaleList, function(i, contact) {
+			     	 		monthChartArr.push({y:contact.amount,label:contact.month});
+				          });  
+					   	 	if(monthChartArr == ""){
+					   	 		monthChartArr.push({y:"No Data Available",label:"No Data Available"});
+					   	 	}
+					   	 	
+			      	    $.each(response.dashBoard.monthQtyist, function(i, contact) {
+				   	 		qtyChartArr.push({y:contact.qty,label:contact.productName});
+				          }); 
+			      	  
+			     	   $.each(response.dashBoard.yearSaleList, function(i, contact) {
+				   	 		yearChartArr.push({
+						     	 		x: contact.year,
+						     	 		y: contact.amount
+					     	 		 });  
+				          });
+				          
+			     	     $.each(response.dashBoard.monthQtyist, function(i, contact) {
+				   	 		qtyAmtChartArr.push({y:contact.monthProdAmount,label:contact.productName});
+				          }); 
+				   	 	
+			     	    /* var yearChart = new CanvasJS.Chart("yearChartContainer", {
+				    	 	animationEnabled: true,
+				    	 	theme: "light2",
+				    	 	backgroundColor: "#F5DEB3",
+				    	 	zoomEnabled:true,
+				    	 	exportEnabled: true,
+				    	 	axisX:{
+				    	 		valueFormatString: "####",
+				    			interval: 1,
+				    	        title: "Year",
+				    	        //intervalType: "year",        
+				    	        labelAngle: -20
+				    	      },
+				    	 	axisY: {
+				    	 		title: "Amount",
+				    	 		titleFontSize: 24,
+				    	 		valueFormatString: "#,###,.##K",
+				    	 	},
+				    	 	data: [{
+				    	 		type: "column",
+				    	 		xValueFormatString: "####",
+				    	 		dataPoints: yearChartArr
+				    	 	}]
+			    	  }); */
+			    	  
+			    	  $.each(response.dashBoard.custPendingAmnt, function(i, contact) {
+			    		  pendingCustAmnt.push({y:contact.totalMonthAmount,label:contact.custName});
+				          });
+			    	  
+			    	  var custPendingAmnt = new CanvasJS.Chart("customerPendingAmntchartContainer", {
+			 	    	 	animationEnabled: true,
+			 	    	 	theme: "light2",
+			 	    	 	//backgroundColor: "#F5DEB3",
+				    	 	zoomEnabled:true,
+				    	 	exportEnabled: true,
+			 	    	 	backgroundColor: "#F5DEB3",
+			 	    	 	axisX:{
+			 	    	        title: "Customer",
+			 	    	       // intervalType: "month",     
+			 	    	       valueFormatString: "####",
+			 	    	        labelAngle: -20
+			 	    	      },
+			 	    	 	axisY: {
+			 	    	 		title: "Amount",
+			 	    	 		titleFontSize: 24,
+			 	    	 		valueFormatString: "#,###,.##K"
+			 	    	 	},
+			 	    	 	legend:{
+			 	    	        verticalAlign: "bottom",
+			 	    	        horizontalAlign: "center"
+			 	    	      },
+			 	    	 	data: [{
+			 	    	 		type: "column",
+			 	    	 		indexLabelFontSize: 17,
+			 	    	 		//indexLabel: "{label} - #percent%",
+			 	    	 		toolTipContent: "<b>{label}:</b> {y} (#percent%)",
+			 	    	 		yValueFormatString: "#,### Rs",
+			 	    	 		toolTipContent: "{y}",
+			 	    	 		showInLegend: true,
+			 	    	 		dataPoints: pendingCustAmnt
+			 	    	 	}]
+			 	    	 });
+			    	  
+			   	 	
+			          var monthChart = new CanvasJS.Chart("monthChartContainer", {
+				    	 	animationEnabled: true,
+				    	 	theme: "light2",
+				    	 	backgroundColor: "#F5DEB3",
+				    	 	zoomEnabled:true,
+				    	 	exportEnabled: true,
+				    	 	axisX:{
+				    	 		valueFormatString: "####",
+				    			interval: 1,
+				    	        title: "Month",
+				    	        //intervalType: "year",        
+				    	        labelAngle: -20
+				    	      },
+				    	 	axisY: {
+				    	 		title: "Amount",
+				    	 		titleFontSize: 24,
+				    	 		valueFormatString: "#,###,.##K",
+				    	 	},
+				    	 	data: [{
+				    	 		type: "column",
+				    	 		xValueFormatString: "####",
+				    	 		dataPoints: monthChartArr
+				    	 	}]
+			    		  });
+			   	 	
+			   		 var qtyAmountChart = new CanvasJS.Chart("qtyChartContainer", {
+			    	 	animationEnabled: true,
+			    	 	theme: "light2",
+			    	 	backgroundColor: "#F5DEB3",
+			    	 	zoomEnabled:true,
+			    	 	exportEnabled: true,
+			    	 	axisX:{
+			    	        title: "Product",
+			    	       // intervalType: "month",        
+			    	        labelAngle: -20,
+			    	        //interval: 1,
+			    	       // intervalType: "month",
+			    	      },
+			    	 	axisY: {
+			    	 		title: "Amount",
+			    	 		titleFontSize: 24,
+			    	 		valueFormatString: "#,###,.##K"
+			    	 	},
+			    	 	axisY2:{
+			    	 		title: "Quantity",
+			    	 		titleFontSize: 24,
+			    	 		valueFormatString: "#,###"
+			    	 	},
+			    	 	toolTip: {
+			    			shared: true
+			    		},
+			    	 	data: [/* {
+				    	 		type: "column",
+				    	 		name: "Amount",
+				    	 		dataPoints: monthChartArr,
+				    	 		showInLegend: true,
+				    	 		xValueFormatString:"Month ###",
+		    	    	 		yValueFormatString: "#,### Rs",
+		    	    	 		//toolTipContent: "{name}:{x}<br>{name}:{y}", 
+			    	 		}, */
+			    	 		{
+				    	 		type: "column",
+				    	 		name: "Amount",
+				    	 		dataPoints: qtyAmtChartArr,
+				    	 		showInLegend: true,
+				    	 		xValueFormatString:"Month ###",
+		    	    	 		yValueFormatString: "#,### Rs",
+		    	    	 		//toolTipContent: "{name}:{x}<br>{name}:{y}", 
+			    	 		},
+			    	 		{
+			    	 			type: "column",
+			    	 			name: "Quantity",
+			    	 			axisYType: "secondary",
+			    	 			dataPoints: qtyChartArr,
+			    	 			showInLegend: true,
+			    	 			xValueFormatString:"Month ###",
+		    	    	 		yValueFormatString: "#,### Bag"
+			    	 		}
+			    	 	]
+		    	  });
+				    
+					
+					 var totalOrder = response.dashBoard.totalOrder;
+				   	 $("#totalOrder").append(totalOrder);
+				   	 	
+				   	var clearedOrder = response.dashBoard.clearedOrder;
+				    $("#clearedOrder").append(clearedOrder);
+				    
+				    //var pendingOrder = response.dashBoard.pendingOrder;
+				    var pendingOrder = totalOrder - clearedOrder;
+				    
+				    $("#pendingOrder").append(pendingOrder);
+				    
+				    var metrics = [];
+							metrics = [{y:totalOrder,legendText:'Total Order',label:'Total Order'},
+			         		{y:clearedOrder,legendText:'Cleared Order',label:'Cleared Order'},
+			         		{y:pendingOrder,legendText:'Pending Order',label:'Pending Order'}];
+			         
+			   		var orderChart = new CanvasJS.Chart("orderchartContainer", {
+		 	    	 	animationEnabled: true,
+		 	    	 	backgroundColor: "#F5DEB3",
+		 	    	 	theme: "light2",
+		 	    	 	exportEnabled: true,
+		 	    	 	 /* title: {
+		 	    	 		text: "All Customers"
+		 	    	 	}, */ 
+		 	    	 	axisX:{
+		 	    	        title: "Month",
+		 	    	        intervalType: "month",        
+		 	    	        labelAngle: -20
+		 	    	      },
+		 	    	 	axisY: {
+		 	    	 		title: "Amount",
+		 	    	 		titleFontSize: 24
+		 	    	 	},
+		 	    	 	legend:{
+		 	    	        verticalAlign: "bottom",
+		 	    	        horizontalAlign: "center"
+		 	    	      },
+		 	    	 	data: [{
+		 	    	 		type: "pie",
+		 	    	 		indexLabelFontSize: 17,
+		 	    	 		indexLabel: "{label} - #percent%",
+		 	    	 		toolTipContent: "<b>{label}:</b> {y} (#percent%)",
+		 	    	 		yValueFormatString: "#,### ",
+		 	    	 		toolTipContent: "{y}",
+		 	    	 		showInLegend: true,
+		 	    	 		dataPoints: metrics
+		 	    	 	}]
+		 	    	 });
+			   		orderChart.render();
+			   		monthChart.render();
+				  	qtyAmountChart.render();
+				  	custPendingAmnt.render();
+				  //	yearChart.render();
+					},
+					error : function(e) {
+					}
+			});
+		    }
+        /* $.get("http://localhost:8080/CustomerService/resources/customer/getTransaction", function(data){
+     	  	var dataset1 = [];
+     	 	  $.each(data.transaction, function(i, contact) {
+     	 		  var row = []
+     	 		    row.push(contact.id);
+	     	 		row.push(contact.customer.custName);
+	     	 		row.push(contact.customer.phNumber);
+	     	 		row.push(contact.orderPerCustomer);
+	     	 		row.push(contact.totalAmount);
+	     	 		row.push(contact.submittedAmount);
+	     	 		row.push(contact.remainingAmount);
+	     	 		row.push((new Date(contact.createdDate)).toLocaleString());
+	     	 		dataset1.push(row);
+            });  
+     	$('#transaction').DataTable( {
+     		data:dataset1
+        });
+    }); */
+	    
+	    /* $("#customerSearch").keyup(function(){
+	        var searchText = $(this).val().toLowerCase();
+	        // Show only matching TR, hide rest of them
+	        $.each($("#customer tbody tr"), function() {
+	            if($(this).text().toLowerCase().indexOf(searchText) === -1)
+	               $(this).hide();
+	            else
+	               $(this).show();                
+	        });
+	    }); */
+	    
+    }); 
+ 
+ function openCity(evt, cityName) {
+	    var i, tabcontent, tablinks;
+	    tabcontent = document.getElementsByClassName("tabcontent");
+	    for (i = 0; i < tabcontent.length; i++) {
+	        tabcontent[i].style.display = "none";
+	    }
+	    tablinks = document.getElementsByClassName("tablinks");
+	    for (i = 0; i < tablinks.length; i++) {
+	        tablinks[i].className = tablinks[i].className.replace(" active", "");
+	    }
+	    document.getElementById(cityName).style.display = "block";
+	    evt.currentTarget.className += " active";
+	}
+ document.getElementById("defaultOpen").click();
+
+</script>
+</html>

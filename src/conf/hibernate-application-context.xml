@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Application context definition for MiSvcs on Hibernate.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xsi:schemaLocation="
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<!-- ========================= RESOURCE DEFINITIONS ========================= -->
+
+	<!-- Configurer that replaces ${...} placeholders with values from a properties file -->
+	<!-- (in this case, Hibernate-related settings for the sessionFactory definition below) 
+	<context:property-placeholder location="WEB-INF/classes/conf/hibernate/jdbc.properties"/>-->
+	
+
+	<!-- Hibernate SessionFactory -->
+	<!-- <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+    	<property name="packagesToScan" value="com.org.model"/> 
+		<property name="hibernateProperties">
+			<props>
+			 <prop key="hibernate.connection.driver_class">${hibernate.connection.driver_class}</prop>
+			  <prop key="hibernate.connection.url">${hibernate.connection.url}</prop>
+    		  <prop key="hibernate.connection.username">${hibernate.connection.username}</prop>
+   	 		  <prop key="hibernate.connection.password">${hibernate.connection.password}</prop>
+			  <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+			  <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+			  <prop key="hibernate.use_sql_comments">${hibernate.use_sql_comments}</prop>
+			  <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+			  <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+			  <prop key="hibernate.jdbc.batch_size">${hibernate.jdbc.batch.size}</prop>
+			  <prop key="hibernate.connection.autocommit">${hibernate.connection.autocommit}</prop>
+			</props>
+		</property>
+	</bean> -->
+	
+	
+	
+	<bean 	id="dataSource" 
+			class="com.org.util.CustomBasicDataSource"
+			destroy-method="close" 
+			p:driverClassName="${${deployed.env}.hibernate.connection.driver_class}"
+			p:url="${${deployed.env}.hibernate.connection.url}" 
+			p:username="${${deployed.env}.hibernate.connection.username}"
+			p:password="${${deployed.env}.hibernate.connection.password}" />
+
+
+	<bean 	id="sessionFactory"
+			class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+			<property name="packagesToScan" value="com.org.model"/> 
+			<property name="dataSource" ref="dataSource" />
+			<!-- <property name="configLocation" value="classpath:/conf/hibernate.cfg.xml" /> -->
+			<property name="hibernateProperties">
+				<props>
+					<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+					 <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+					<!-- <prop key="hibernate.enable_lazy_load_no_trans">true</prop> -->
+					<prop key="hibernate.show_sql">true</prop>
+					<prop key="hibernate.jdbc.batch_size">100</prop>
+					<prop key="hibernate.connection.pool_size">10</prop>
+					<prop key="hibernate.c3p0.min_size">10</prop>
+					<prop key="hibernate.c3p0.max_size">20</prop>
+					<prop key="hibernate.c3p0.timeout">5000</prop>
+					<prop key="hibernate.c3p0.max_statements">50</prop>
+					<prop key="hibernate.c3p0.idle_test_period">3000</prop>
+					<prop key="hibernate.c3p0.acquire_increment">1</prop>
+					<prop key="hibernate.order_inserts">true</prop>
+					<prop key="hibernate.order_updates">true</prop>
+					<prop key="hibernate.cache.use_second_level_cache">true</prop>
+					<prop key="hibernate.cache.use_query_cache">false</prop>
+					<prop key="hibernate.c3p0.validate">true</prop>
+					<prop key="hibernate.c3p0.preferredTestQuery">select 1</prop>
+					<!-- <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</prop> -->
+					<!-- <prop key="hibernate.enable_lazy_load_no_trans">true</prop> -->
+					<!-- <prop key="hibernate.cache.provider_configuration_file_resource_path">classpath:/conf/${env.config}/appCache.xml</prop> -->
+					<prop key="hibernate.current_session_context_class">org.springframework.orm.hibernate4.SpringSessionContext</prop>
+				</props>
+			</property>
+	</bean>
+	
+	<bean 	id="transactionManager"
+			class="org.springframework.orm.hibernate4.HibernateTransactionManager"
+			p:sessionFactory-ref="sessionFactory" />
+	
+	
+	
+    
+	<!-- Transaction manager for a single Hibernate SessionFactory (alternative to JTA) -->
+	<!-- <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory">
+		</property>	
+	</bean>	 -->	
+	
+	<!-- <bean 	id="tansactionManager"
+			class="org.springframework.orm.hibernate4.HibernateTransactionManager"
+			p:sessionFactory-ref="sessionFactory" />
+			
+			<tx:annotation-driven transaction-manager="transactionManager"/> -->
+	
+	<!-- Transaction manager that delegates to JTA (for a transactional JNDI DataSource) -->
+	<!--
+	<bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager"/>
+	-->
+
+
+	<!--
+		Activates various annotations to be detected in bean classes:
+		Spring's @Required and @Autowired, as well as JSR 250's @Resource.
+	-->
+	<context:annotation-config/>
+
+	<!--
+		Instruct Spring to perform declarative transaction management
+		automatically on annotated classes.
+	-->
+	<tx:annotation-driven/>
+
+	<!--
+		Exporter that exposes the Hibernate statistics service via JMX. Autodetects the
+		service MBean, using its bean name as JMX object name.
+	-->
+	<!-- <context:mbean-export/> -->
+</beans>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:cache="http://www.springframework.org/schema/cache"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+    http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.0.xsd  http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-4.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+	http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
+	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd 
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+        
+        <!-- xmlns:ehcache="http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring"  -->
+        <!-- http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring 
+        http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring/ehcache-spring-1.1.xsd -->
+
+	<!-- activate annotation configuration used over the beans -->
+	<context:annotation-config />
+
+	<!-- explicit support for annotation-driven MVC controllers -->
+	<!-- <mvc:annotation-driven /> -->
+	
+	<!-- <ehcache:annotation-driven /> -->
+  
+	<!-- scans the packages and register beans at context -->
+	
+	<context:component-scan base-package="com.org" />
+
+<context:property-placeholder location="classpath:conf/conf.properties" />
+	<!-- <bean id="configProperties" 
+		class="com.service.portal.utility.property.ApplicationPropertyConfigurer">
+		<property name="ignoreResourceNotFound" value="true" />
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+        <property name="locations">  
+        <list>
+            <value>classpath:/config/props/${RWE_ENV}/*.properties</value> 
+            <value>classpath:/config/props/*.properties</value> 
+        </list> 
+        </property>  
+    </bean>
+    
+	<bean id="applicationPropertyUtil"
+		class="com.service.portal.utility.property.ApplicationPropertyUtil">
+		<property name="propertyConfigurer" ref="configProperties" />
+	</bean> -->
+	
+	<!-- <import resource="spring-jms.xml" /> --> 
+	<!-- import jdbc configuration file -->
+	<!-- <import resource="classpath:config/jdbc/jdbc-context.xml" />
+	<import resource="classpath:config/spring/jobs/ki/ki-notification-job.xml" /> -->
+	
+	<!-- <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/view/jsp/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean> -->
+	
+	
+	
+	<!-- <bean id="log4jInitialization"
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetClass" value="org.springframework.util.Log4jConfigurer" />
+		<property name="targetMethod" value="initLogging" />
+		<property name="arguments">
+			<list>
+				<value>classpath:${log4j.properties.file.location}</value>
+				<value>${log4j.refresh.interval}</value>
+			</list>
+		</property>
+	</bean> -->
+		  
+    <!-- <ehcache:config cache-manager="cacheManager">
+        <ehcache:evict-expired-elements interval="60" />
+    </ehcache:config>
+  
+    <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+        <property name="configLocation"  value="/WEB-INF/classes/ehcache.xml"/>
+    </bean>
+     -->
+	 <import resource="/hibernate-application-context.xml"/>
+</beans>

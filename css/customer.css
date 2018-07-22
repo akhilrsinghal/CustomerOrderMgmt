@@ -1,0 +1,118 @@
+div.tab {
+    overflow: hidden;
+    /* border: 1px solid #ccc;
+    background-color: #f1f1f1; */
+}
+
+/* Style the buttons inside the tab */
+div.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+/* div.tab button:hover {
+    background-color: #ace89d;
+} */
+
+/* Create an active/current tablink class */
+div.tab button.active {
+    background-color: #ace89d;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+#myInput {
+  /* background-image: url('/css/searchicon.png'); */
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  width: 100%;
+  font-size: 16px;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
+}
+
+#myTable {
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid #ddd;
+  font-size: 18px;
+}
+
+#myTable th, #myTable td {
+  text-align: left;
+  padding: 12px;
+}
+
+#myTable tr {
+  border-bottom: 1px solid #ddd;
+}
+
+#myTable tr.header, #myTable tr:hover {
+  background-color: #f1f1f1;
+}
+
+
+body {
+    background-color: #ace89d;
+}
+/* 
+.login-dialog .modal-dialog {
+    width: 300px;
+} */
+
+#chartContainer>.canvasjs-chart-container>.canvasjs-chart-credit{
+display:none;
+}
+
+table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd{
+	background-color: green;
+}
+
+/* Center the image and position the close button */
+.imgcontainer {
+    text-align: center;
+    margin: 24px 0 12px 0;
+    position: relative;
+}
+
+img.avatar {
+    width: 50%;
+    border-radius: 50%;
+}
+
+#loginpopup{
+	background: mediumseagreen;
+}
+
+#loginpopupbody{
+	background: #2398378f;
+}
+
+
+/* .ui-datepicker-calendar,.ui-datepicker-month { display: none; } */​
+
+
+
+/* html, body { height: 100%; padding: 0; margin: 0; }
+div { width: 50%; height: 50%; float: left; }
+#monthDashBoard { background: #DDD;  width: 50%; height: 50%; float: left; }
+#yearDashBoard { background: #AAA;  width: 50%; height: 50%; float: left;}
+#orderDashBoard { background: #777;  width: 50%; height: 50%; float: left;}
+#customerDashBoard { background: #444; width: 50%; height: 50%; float: left; } */

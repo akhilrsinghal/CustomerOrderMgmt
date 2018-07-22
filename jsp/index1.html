@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Customer Service</title>
+<!-- <link rel="stylesheet" href="css/style.css"/> -->
+<!-- Include JS File Here -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.35.4/js/bootstrap-dialog.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+
+<script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+<!-- <script type="text/javascript" src="js/jquery-fusioncharts.js"></script>
+<script type="text/javascript" src="js/transcoder-htmltable.js"></script>
+<script type="text/javascript" src="js/fusioncharts-jquery-plugin.js"></script>
+ -->
+  <script type="text/javascript" src="js/customer.js"></script>
+   <script type="text/javascript" src="js/product.js"></script>
+ <!-- <script type="text/javascript" src="js/order.js"></script>
+ <script type="text/javascript" src="js/transaction.js"></script> -->
+    
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.35.4/css/bootstrap-dialog.min.css">
+<link rel="stylesheet" href="css/customer.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.css" />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">  
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.css">  
+<link rel="stylesheet" href="https://canvasjs.com/assets/css/jquery-ui.1.11.2.min.css"/>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-growl/1.0.0/jquery.bootstrap-growl.min.js"></script>
+
+
+    
+</head>
+<body bgcolor="#E6E6FA">
+
+<div class="tab">
+ <button class="tablinks" onclick="openCity(event, 'Order')" id="defaultOpen" style="color: black; font-size: 20px">Order</button>
+ <button class="tablinks" onclick="openCity(event, 'Transaction')" style="color: black; font-size: 20px">Transaction</button>
+  <button class="tablinks" onclick="openCity(event, 'Customer')" style="color: black; font-size: 20px">Customer</button>
+  <button class="tablinks" onclick="openCity(event, 'Product')" style="color: black; font-size: 20px">Product</button>
+  <!-- <h1 style="padding-left: 20%">Order Management</h1> -->
+</div>
+
+
+			<!----------------------------------------- Customer ----------------------------------------------------------->
+	<div id="Customer" class="tabcontent">
+		<!-- <div class="container"> -->
+		<h1>Add Customer</h1>
+			<!-- <form action="resources/customer/addCustomer1" method="post" > -->
+			<div class="form-group row col-md-12">
+				<div class = "panel panel-default">
+					<div class="col-xs-2 col-md-2">
+						<br> <label for="name">Name:</label> 
+						<input type="text" class="form-control" id="custName" name="customer"><br>
+					</div>
+					<div class="col-xs-2 col-md-2">
+						<br> <label for="mail">E-mail:</label> <input type="email"
+							class="form-control" id="custEmail" name="customer"><br>
+					</div>
+						<div class="col-xs-2 col-md-2">
+							<br> <label for="mail">Address</label> <input type="text"
+								class="form-control" id="custAddress" name="customer"><br>
+						</div>
+						<div class="col-xs-2 col-md-2">
+							<br> <label for="mail">Phone</label><br> <input
+								type="text" class="form-control" id="custMobile"
+								name="customer">
+								<span id="ph_error_message" class = "text-danger"></span>
+						</div>
+						<div class="form-group col-md-4" style="padding-top: 43px">
+							 <input id="btn" type="submit" name="submit"
+								value="Add Customer" class="btn btn-info">
+								<span id="customer_error_message" class = "text-danger"></span>
+						</div>
+					</div>
+				</div>
+				<!-- <input type="text" id="customerSearch" placeholder="Search Customer"></input> -->
+				<div class = "col-md-5">
+					<h1>Customer List</h1>
+					<table id="customer" class="data-contacts-js display table table-striped " 
+						cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<!-- <th>Sr. No.</th> -->
+								<th>Customer Name</th>
+								<th>Customer Phone</th>
+								<th>Email ID</th>
+								<th>Address</th>
+								<th>Created Date (MM/DD/YYYY)</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+				 <div class = "col-md-1">
+				</div> 
+				<div class = "col-md-5">
+	                 <h1>Transactions</h1> 
+					 <div id="customerchartContainer"></div>
+					 <div class="col-md-1" style="padding-top: 48%; padding-left: 0%;">  
+	                     <input type="button" name="graphrsetfilter" id="graphrsetfilter" value="Reset Filter" class="btn btn-info" />  
+	                </div>
+				</div>
+			<!-- </form> -->
+		<!-- </div> -->
+		</div>
+		
+		<!--------------------------------- Product --------------------------------------------->
+		<div id="Product" class="tabcontent">
+			<!-- <div class="container"> -->
+				<h1>Add Product</h1>
+				<!-- <form action="resources/customer/addCustomer1" method="post" > -->
+				<div class="form-group row col-md-12">
+					<div class = "panel panel-default">
+						<div class="col-md-2">
+							<br> <label for="name">Name:</label> <input type="text"
+								class="form-control" id="productName" name="product"><br>
+						</div>
+						<div class="col-md-2">
+							<br> <label for="mail">Description</label> <input type="text"
+								class="form-control" id="productDesc" name="product"><br>
+						</div>
+						<div class="form-group col-md-2" style="padding-top: 45px">
+							<input id="productbtn" type="submit" name="submit"value="Add Product" class="btn btn-info">
+							<span id="error_message" class = "text-danger"></span>
+							<span id="success_message" class = "text-success"></span>
+						</div>
+					</div>
+				</div>
+				<div class = "col-md-6">
+					<h1>Product List</h1>
+					<!-- <input type="text" id="productSearch" placeholder="Search Product"></input> -->
+					<table id="product"
+						class="data-product-js display table table-striped"
+						cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<!-- <th>Sr. No.</th> -->
+								<th>Product Name</th>
+								<th>Product Description</th>
+								<th>Created Date (MM/DD/YYYY)</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			<!-- </div> -->
+			<!-- </form> -->
+		</div>
+		
+		
+		<!--------------------------------------- order--------------------------------------- -->
+		<div id="Order" class="tabcontent">
+		<!-- <div class="container"> -->
+			<!-- <form action="resources/customer/addCustomer1" method="post" > -->
+			<div class="form-group row">
+				<div class = "col-md-6">
+					<h1>Place Order</h1>
+					<div class="col-xs-2 col-md-3">
+						<br> <label for="name">Customer Name</label> 
+						<!-- <input type="text"class="form-control" id="customerName" name="customer_Name"> --><br>
+							<select id = "customerDropDown" class="selectpicker"> <!-- class="selectpicker" -->
+							</select>
+					</div>
+					<div class="col-xs-2 col-md-3">
+						<br> <label for="name">Product</label> 
+						<!-- <input type="text" class="form-control" id="product" name="product"> --><br>
+						<select id = "productDropDown" class="selectpicker">
+							</select>
+					</div>
+					<div class="col-xs-2 col-md-2">
+						<br> <label for="name">Quantity</label> <input type="text"
+							class="form-control" id="orderQty" name="order"><br>
+							<span id="qty_error_message" class = "text-danger"></span>
+					</div>
+					<div class="col-xs-2 col-md-2">
+						<br> <label for="mail">Price</label> <input type="text"
+							class="form-control" id="itemprice" name="order"><br>
+							<span id="price_error_message" class = "text-danger"></span>
+					</div>
+					<div class="form-group col-md-2" style="padding-top: 45px" >
+						<input id="orderbtn" type="submit" name="submit" value="Place Order" class="btn btn-info">
+						<span id="order_error_message" class = "text-danger"></span>
+					</div>
+				</div>
+				<div class = "col-md-1">
+				</div>
+				<div class = "col-md-5">
+					<h1>Filter Order</h1>
+					<div class="col-md-3">  
+						<br> <label>From Date</label>
+	                     <input type="text" name="from_date" id="order_from_date" class="form-control"  />  
+	                </div>  
+	                <div class="col-md-3">  
+	               		 <br> <label>To Date</label>
+	                     <input type="text" name="to_date" id="order_to_date" class="form-control"  />  
+	                </div>  
+	                <div class="col-md-1" style="padding-top: 45px">  
+	                     <input type="button" name="filter" id="order_filter" value="Filter" class="btn btn-info" />  
+	                </div>  
+	                <div class="col-md-3" style="padding-top: 45px">  
+	                     <input type="button" name="rsetfilter" id="order_rsetfilter" value="Reset Filter" class="btn btn-info" />  
+	                </div>  
+	                <div style="clear:both"></div>
+				</div>
+			</div>	
+			<div class = "col-md-6">
+				<h1>Order List</h1>
+				<!-- <input type="text" id="orderSearch" placeholder="Search Order"></input> -->
+				<table id="order"
+					class="data-order-js display table table-striped"
+					cellspacing="0" width="100%">
+					<thead>
+						<tr>
+							<!-- <th>Order No.</th> -->
+							<th>Customer Name</th>
+							<th>Customer's Order No</th>
+							<th>Product Name</th>
+							<th>Quantity</th>
+							<th>Price / Item</th>
+							<th>Total Amount</th>
+							<th>Order Date (MM/DD/YYYY)</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+			<!-- </div> -->
+			
+		<!-- </div> -->
+			<div class = "col-md-1">
+			</div>
+			<div class = "col-md-5">
+				 <h1>Monthly Sales Data</h1>
+					<div id="chartContainer"></div>
+			</div>
+		</div>
+		
+		
+		<!------------------------------ Transaction ---------------------------->
+		
+		<div id="Transaction" class="tabcontent">
+		<div class="container">
+		<h1>Total Transactions</h1>
+			<!-- <form action="resources/customer/addCustomer1" method="post" > -->
+			<div class="form-group row">
+					<!-- <input type="text" id="transactionSearch" placeholder="Search Transaction"></input> -->
+					<!-- <input type="text" name="daterange" value="01/01/2015 - 01/31/2015" /> -->
+					
+					<div class="col-md-3">  
+	                     <input type="text" name="from_date" id="from_date" class="form-control" placeholder="From Date" />  
+	                </div>  
+	                <div class="col-md-3">  
+	                     <input type="text" name="to_date" id="to_date" class="form-control" placeholder="To Date" />  
+	                </div>  
+	                <div class="col-md-1">  
+	                     <input type="button" name="filter" id="txn_filter" value="Filter" class="btn btn-info" />  
+	                </div>  
+	                <div class="col-md-3">  
+	                     <input type="button" name="rsetfilter" id="txn_rsetfilter" value="Reset Filter" class="btn btn-info" />  
+	                </div>  
+	                <div style="clear:both"></div>                 
+	                <br />  
+				<table id="transaction"
+					class="data-transaction-js display table table-striped"
+					cellspacing="0" width="100%">
+					<thead>
+						<tr>
+							<!-- <th>Tran No.</th> -->
+							<th>Customer Name</th>
+							<th>Customer Phone</th>
+							<th>Customer's Order No</th>
+							<th>Total Amount</th>
+							<th>Deposit Amount</th>
+							<th>Remaining Amount</th>
+							<th>Created Date (MM/DD/YYYY)</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+		</div>
+		
+<script type="text/javascript">
+var refProductTable;
+ $(document).ready(function() {
+	 /* -------------------------------Customer---------------------------------- */
+   
+    
+//debugger;
+
+  /* $.get("http://localhost:8080/CustomerService/resources/customer/getCustomer", function(data){
+	 // console.log("Customer:::::::::::::: " + data)
+	 
+	 	var customerList = '';
+            $.each(data.customer, function(i, contact) {
+            	new Date(contact.createdDate).toDateString("yyyy-MM-dd")
+                $(".data-contacts-js").append(
+                    "<tr>"+
+    				"<td>" + contact.id + "</td>" +
+    				"<td>" + contact.custName + "</td>" +
+                    "<td>" + contact.phNumber + "</td>" +
+                    "<td>" + contact.emailId + "</td>" +
+    				 "<td>" + contact.custAddress + "</td>"+
+    				 "<td>" + (new Date(contact.createdDate)).toLocaleString() + "</td>"+
+    				"</tr>");
+            	
+            	customerList += '<option value=' + contact.id + '>' + contact.custName + '</option>';
+            });
+            $("#customerDropDown").append(customerList);
+        }); */
+  
+  
+  /* $.get("http://localhost:8080/CustomerService/resources/customer/getCustomer", function(data){
+	  	var dataset1 = [];
+	  	var customerList = '';
+	 	  $.each(data.customer, function(i, contact) {
+	 		  var row = []
+	 		    row.push(contact.id);
+		 		row.push(contact.custName);
+		 		row.push(contact.phNumber);
+		 		row.push(contact.emailId);
+		 		row.push(contact.custAddress);
+		 		row.push((new Date(contact.createdDate)).toLocaleString());
+		 		dataset1.push(row);
+		 		
+		 		customerList += '<option value=' + contact.id + '>' + contact.custName + '</option>';
+       });  
+	 	 $("#customerDropDown").append(customerList);
+	$('#customer').DataTable( {
+		data:dataset1
+   });
+}); */
+  
+  
+  /* --------------------------------Product---------------------------- */
+  
+   /* var dataSet = [
+	        	[1,"Pasta","pasta",1513230856000],[2,"Chunks","Chunks",1513230863000]
+	            ]; */
+	  
+			/* ------------------------------ order----------------------------------------------- */
+	    //Order button
+	    $('#orderbtn').click(function(e) {
+	        var customer = new Object();
+	        customer.customerId = $('#customerDropDown').val();
+	        customer.productId = $('#productDropDown').val();
+	        customer.quantity = $('#orderQty').val();
+	        customer.amount = $('#itemprice').val();
+	        customer.netAmount = $('#totalAmount').val();
+	        
+	        
+	        var isValid = true;
+	        $('input[name="order"]').each(function() {
+	          //  if ($.trim($(this).val()) == '') {
+	       	   if(customer.quantity == '' || customer.amount == ''){
+	       		   $('#order_error_message').html("All Fields are required.").show().delay(1000).fadeOut("slow");
+	                isValid = false;
+	                $(this).css({
+	                    "border": "1px solid red"
+	                });
+	            }
+	            else {
+	                $(this).css({
+	                    "border": "",
+	                    "background": ""
+	                });
+	            }
+	        });
+	        
+	       if (isValid == false){
+	           e.preventDefault();
+	       }
+	        else{
+	        $.ajax({
+	            url: 'http://localhost:8080/CustomerService/resources/customer/addOrder',
+	            type: 'POST',
+	            headers: {
+	                'Content-Type': 'application/json'
+	            }, 
+	            contentType: 'application/json',
+	            Accept : 'application/json',
+	            dataType: 'json',
+	            data: JSON.stringify(customer),
+	            success: function (data, textStatus, xhr) {
+	            	getOrderAjax();
+	            	getGraphAjax();
+	            	$.bootstrapGrowl('Order Placed Susseccfully.',{
+                        type: 'success',
+                        delay: 2000,
+                        align: 'center'
+                    });
+	            },
+	            error: function (xhr, textStatus, errorThrown) {
+	                //console.log('Error ddddin Operation');
+	            }
+	        });
+	    }
+	});
+	    $("#orderQty").keypress(function (e) {
+  		     //if the letter is not digit then display error and don't type anything
+  		     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+  		        //display error message
+  		        $("#qty_error_message").html("Digits Only").show().delay(1000).fadeOut("slow");
+  		               return false;
+  		    }
+  		   });
+	    
+	    $("#itemprice").keypress(function (e) {
+ 		     //if the letter is not digit then display error and don't type anything
+ 		     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+ 		        //display error message
+ 		        $("#price_error_message").html("Digits Only").show().delay(1000).fadeOut("slow");
+ 		               return false;
+ 		    }
+ 		   });
+	    
+	    $( "#order_from_date" ).datepicker();
+		$( "#order_to_date" ).datepicker();
+		  
+		   
+		     $('#order_filter').click(function() {
+			   var start_Date = $('#order_from_date').val();
+			   var end_Date = $('#order_to_date').val();
+			   var date = $("#order_from_date").datepicker("getDate");
+			   console.log($.datepicker.formatDate("yy-mm-dd", date));
+			   //console.log()
+			   $.ajax({
+			    	method  : "GET",
+				    url     : 'http://localhost:8080/CustomerService/resources/customer/getOrderByDate?startDate='+start_Date+'&endDate='+end_Date,
+				   headers: {
+				       'Content-Type': 'application/json'
+				   }, 
+				   contentType: 'application/json',
+				   Accept : 'application/json',
+				   dataType: 'json',
+		           success: function(response) {
+		        	   var dataset1 = [];
+			   	 	  $.each(response.orderByDate, function(i, contact) {
+			   	 		var row = []
+			   	 		row.push(contact.customer.custName);
+		     	 		row.push('<a href="#" class="customerOrder" data="'+contact.customer.id+'">'+contact.orderPerCustomer+'</a>');
+		     	 		row.push(contact.product.productName);
+		     	 		row.push(contact.quantity);
+		     	 		row.push(contact.amount);
+		     	 		row.push(contact.netAmount);
+		     	 		row.push((new Date(contact.createdDate)).toLocaleString());
+				     	 		dataset1.push(row);
+				     	 		$('#order').DataTable( {
+						     		"destroy": true,
+							   		"order": [[ 6, "desc" ]],
+						     		data:dataset1,
+						     		drawCallback: function( settings ) {
+						     			 $(".customerOrder").on('click',function(){
+						     				 //console.log(this);
+						     				 var customerId = $(this).attr('data');
+						     				 var orderPerCustId = $(this).text();
+						     				 /* console.log("orderId",orderId);
+						     				 console.log(id); */
+						     				 var html = "<label for='name'>Deposit Amount</label>"+
+						     	               			"<input type='text'class='form-control' id='depositAmount' name='deposit_Amount'>"+
+						     	               			"<span id='deposite_message_order' class = 'text-danger'></span>"
+						     	               			
+						     				BootstrapDialog.show({
+						     					title: 'Edit Customer',
+						     					id:"cust",
+						     					message: html,
+						     					closable: true,
+				   					           closeByBackdrop: true,
+				   					           closeByKeyboard: true,
+					     					   buttons: [{ 
+					     					       label: 'Submit',
+					     					               autospin: false,
+					     					       			action: function(dialogRefAlert){
+					     					       			 var transaction = {};
+					     					       			transaction.orderPerCustomer = orderPerCustId;
+					     					       			transaction.customerId = customerId;
+					     					       			transaction.depositAmount = $('#depositAmount').val();
+					     						        if (transaction.depositAmount == ''){
+					     						        	 $('#deposite_message_order').html("All Fields are required.").show().delay(1000).fadeOut("slow");
+					     						        	$('#depositAmount').css({
+					     					                     "border": "1px solid red"
+					     					                 });
+					     						        }
+					     						        else{
+								     					   $.ajax({
+								     					         method  : "POST",
+								     					         url     : 'http://localhost:8080/CustomerService/resources/customer/addTransaction',
+								     					         data    : JSON.stringify(transaction), 
+								     					        headers: {
+								     				                'Content-Type': 'application/json'
+								     				            }, 
+								     				            contentType: 'application/json',
+								     				            Accept : 'application/json',
+								     				            dataType: 'json',
+								     					         success: function(response) {
+								     					        	getTranscationAjax();
+								     					        	dialogRefAlert.close();
+								     						},
+					     					error : function(e) {
+					     					}
+					     					});
+					     						         }
+					     					       }
+					     					   }, {
+					     					               label: 'Cancel', 
+					     					               action: function(dialogRef) {
+					     					               	dialogRef.close();
+					     					               }
+					     					   }]
+					     					   }); 
+						     	       });
+						     	    }
+					            });
+		           });
+		       }
+			   });
+		     });
+		     $('#order_rsetfilter').click(function() {
+		    	 getOrderAjax();
+				 });
+	    
+	    var d = new Date();
+	 	    var month = d.getMonth()+1;
+	 	    var year = d.getFullYear();
+	    getOrderAjax();
+	    function getOrderAjax() { 
+	   	 $.get("http://localhost:8080/CustomerService/resources/customer/getOrder", function(data){
+		     	  	var dataset1 = [];
+		     	  //	var counter = 1;
+		     	 	  $.each(data.order, function(i, contact) {
+		     	 		  var row = []
+		     	 		   /*  row.push(contact.id); */
+			     	 		row.push(contact.customer.custName);
+			     	 		//row.push("<a href=# id='order11'>"+contact.orderPerCustomer+"</a>");
+			     	 		row.push('<a href="#" class="customerOrder" data="'+contact.customer.id+'">'+contact.orderPerCustomer+'</a>');
+			     	 		row.push(contact.product.productName);
+			     	 		row.push(contact.quantity);
+			     	 		row.push(contact.amount);
+			     	 		row.push(contact.netAmount);
+			     	 		row.push((new Date(contact.createdDate)).toLocaleString());
+			     	 		dataset1.push(row);
+			     	 		//counter++;
+		            });  
+		     	$('#order').DataTable( {
+		     		"destroy": true,
+			   		"order": [[ 6, "desc" ]],
+		     		data:dataset1,
+		     		drawCallback: function( settings ) {
+		     			 $(".customerOrder").on('click',function(){
+		     				 //console.log(this);
+		     				 var customerId = $(this).attr('data');
+		     				 var orderPerCustId = $(this).text();
+		     				 /* console.log("orderId",orderId);
+		     				 console.log(id); */
+		     				 var html = "<label for='name'>Deposit Amount</label>"+
+		     	               			"<input type='text'class='form-control' id='depositAmount' name='deposit_Amount'>"+
+		     	               			"<span id='deposite_message_order' class = 'text-danger'></span>"
+		     	               			
+		     				BootstrapDialog.show({
+		     					title: 'Edit Customer',
+		     					id:"cust",
+		     					message: html,
+		     					closable: true,
+   					           closeByBackdrop: true,
+   					           closeByKeyboard: true,
+	     					   buttons: [{ 
+	     					       label: 'Submit',
+	     					               autospin: false,
+	     					       			action: function(dialogRefAlert){
+	     					       			 var transaction = {};
+	     					       			transaction.orderPerCustomer = orderPerCustId;
+	     					       			transaction.customerId = customerId;
+	     					       			transaction.depositAmount = $('#depositAmount').val();
+	     						        if (transaction.depositAmount == ''){
+	     						        	 $('#deposite_message_order').html("All Fields are required.").show().delay(1000).fadeOut("slow");
+	     						        	$('#depositAmount').css({
+	     					                     "border": "1px solid red"
+	     					                 });
+	     						        }
+	     						        else{
+				     					   $.ajax({
+				     					         method  : "POST",
+				     					         url     : 'http://localhost:8080/CustomerService/resources/customer/addTransaction',
+				     					         data    : JSON.stringify(transaction), 
+				     					        headers: {
+				     				                'Content-Type': 'application/json'
+				     				            }, 
+				     				            contentType: 'application/json',
+				     				            Accept : 'application/json',
+				     				            dataType: 'json',
+				     					         success: function(response) {
+				     					        	getTranscationAjax();
+				     					        	dialogRefAlert.close();
+				     						},
+	     					error : function(e) {
+	     					}
+	     					});
+	     						         }
+	     					       }
+	     					   }, {
+	     					               label: 'Cancel', 
+	     					               action: function(dialogRef) {
+	     					               	dialogRef.close();
+	     					               }
+	     					   }]
+	     					   }); 
+		     	       });
+		     	    }
+	            });
+	        });
+ }
+	    
+	    
+	    /* $("#depositAmount").keypress(function (e) {
+		     //if the letter is not digit then display error and don't type anything
+		     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+		        //display error message
+		        $("#deposite_message_order").html("Digits Only").show().delay(1000).fadeOut("slow");
+		               return false;
+		    }
+		   }); */
+	    
+	    /* transaction table */
+	     
+	     $('#txn_rsetfilter').click(function() {
+		   getTranscationAjax();
+		 });
+		   
+	    getTranscationAjax();
+	   function getTranscationAjax() {  
+	    $.ajax({
+		    method  : "GET",
+		    url     : 'http://localhost:8080/CustomerService/resources/customer/getTransaction',
+		   headers: {
+		       'Content-Type': 'application/json'
+		   }, 
+		   contentType: 'application/json',
+		   Accept : 'application/json',
+		   dataType: 'json',
+		    success: function(response) {
+		    	var dataset1 = [];
+		    	//var counter =1;
+	   	 	  $.each(response.transaction, function(i, contact) {
+	   	 		var row = []
+	   	 		    	/* row.push(contact.id); */
+		     	 		row.push(contact.customer.custName);
+		     	 		row.push(contact.customer.phNumber);
+		     	 		row.push(contact.orderPerCustomer);
+		     	 		row.push(contact.totalAmount);
+		     	 		row.push(contact.submittedAmount);
+		     	 		 if(contact.remainingAmount==0){
+			   	 			var test = contact.remainingAmount = "<b style='color:green;'>Cleared</b>";
+			   	 			row.push(test);
+			   	 			//console.log("inside if")
+			   	 		  }
+			   	 		  else{ 
+			   	 			row.push(contact.remainingAmount);
+			   	 		//console.log("inside else")
+			   	 		  }
+		     	 		row.push((new Date(contact.createdDate)).toLocaleString());
+		     	 		dataset1.push(row);
+		     	 		//counter++;
+	          });  
+	   	$('#transaction').DataTable( {
+	   		"destroy": true,
+	   		"order": [[ 6, "desc" ]],
+	   		//"ordering": false,
+	   		data:dataset1
+	      });
+			},
+			error : function(e) {
+			}
+	});
+ }
+	   $( "#from_date" ).datepicker();
+	   $( "#to_date" ).datepicker();
+	  
+	   
+	     $('#txn_filter').click(function() {
+		   var start_Date = $('#from_date').val();
+		   var end_Date = $('#to_date').val();
+		   var date = $("#from_date").datepicker("getDate");
+		   console.log($.datepicker.formatDate("yy-mm-dd", date));
+		   //console.log()
+	   $.ajax({
+	    	method  : "GET",
+		    url     : 'http://localhost:8080/CustomerService/resources/customer/getTransactionByDate?startDate='+start_Date+'&endDate='+end_Date,
+		   headers: {
+		       'Content-Type': 'application/json'
+		   }, 
+		   contentType: 'application/json',
+		   Accept : 'application/json',
+		   dataType: 'json',
+         //  data: {startDate: start_Date, endDate: end_Date},
+           success: function(response) {
+        	   var dataset1 = [];
+		    	//var counter =1;
+	   	 	  $.each(response.transByDate, function(i, contact) {
+	   	 		var row = []
+	   	 		    	/* row.push(contact.id); */
+		     	 		row.push(contact.customer.custName);
+		     	 		row.push(contact.customer.phNumber);
+		     	 		row.push(contact.orderPerCustomer);
+		     	 		row.push(contact.totalAmount);
+		     	 		row.push(contact.submittedAmount);
+		     	 		 if(contact.remainingAmount==0){
+			   	 			var test = contact.remainingAmount = "<b style='color:green;'>Cleared</b>";
+			   	 			row.push(test);
+			   	 			//console.log("inside if")
+			   	 		  }
+			   	 		  else{ 
+			   	 			row.push(contact.remainingAmount);
+			   	 		//console.log("inside else")
+			   	 		  }
+		     	 		row.push((new Date(contact.createdDate)).toLocaleString());
+		     	 		dataset1.push(row);
+		     	 		//counter++;
+	          });  
+	   	$('#transaction').DataTable( {
+	   		"destroy": true,
+	   		"order": [[ 7, "desc" ]],
+	   		//"ordering": false,
+	   		data:dataset1
+	      });
+           }
+       });
+	   });
+	    
+	     getGraphAjax();
+	     function getGraphAjax(){ 
+	     $.ajax({
+			    method  : "GET",
+			    url     : 'http://localhost:8080/CustomerService/resources/customer/getGraphData',
+			   headers: {
+			       'Content-Type': 'application/json'
+			   }, 
+			   contentType: 'application/json',
+			   Accept : 'application/json',
+			   dataType: 'json',
+			    success: function(response) {
+			    	var dataset1 = [];
+			    	var monthList = '';
+			    	var dataPoints1 = [];
+		   	 	  $.each(response.graphData, function(i, contact) {
+		   	 		var row = [];
+		   	 		var month = '';
+			     	 	  dataset1.push({
+			     	 		x:  new Date(contact.month),
+			     	 		y: contact.totalMonthAmount
+			     	 		 });  
+		          });  
+		   	 		var chart = new CanvasJS.Chart("chartContainer", {
+    	    	 	animationEnabled: true,
+    	    	 	theme: "light2",
+    	    	 	/* title: {
+    	    	 		text: "Monthly Sales Data"
+    	    	 	}, */
+    	    	 	axisX:{
+    	    	        title: "Month",
+    	    	        intervalType: "month",        
+    	    	        labelAngle: -20
+    	    	      },
+    	    	 	axisY: {
+    	    	 		title: "Amount",
+    	    	 		titleFontSize: 24
+    	    	 	},
+    	    	 	data: [{
+    	    	 		type: "column",
+    	    	 		yValueFormatString: "#,### Rs",
+    	    	 		toolTipContent: "{y}",
+    	    	 		dataPoints: dataset1
+    	    	 	}]
+    	    	 });
+    	    	 chart.render();
+				},
+				error : function(e) {
+				}
+		});
+	    }
+	     
+	     
+	     /* customer graph */
+	     $('#graphrsetfilter').click(function() {
+	    	 getCustomerGraphAjax();
+				 });
+	     getCustomerGraphAjax();
+	   function getCustomerGraphAjax(){  
+	     $.ajax({
+			    method  : "GET",
+			    url     : 'http://localhost:8080/CustomerService/resources/customer/getCustomerRecord?customerId=',
+			   headers: {
+			       'Content-Type': 'application/json'
+			   }, 
+			   contentType: 'application/json',
+			   Accept : 'application/json',
+			   dataType: 'json',
+			   success: function(response) {
+		        	var metrics = [];
+			         if(response.customerRecord == undefined){
+			        	response.customerRecord = 0; 
+			        	metrics = [{y:'No Data Available',label: 'No Data Available'}];
+			         }
+			         else{
+							metrics = [{y:response.customerRecord.totalAmount,legendText:'Total Amount',label:'Total Amount'},
+			         		{y:response.customerRecord.depositedAmount,legendText:'Deposited Amount',label:'Deposited Amount'},
+			         		{y:response.customerRecord.remainingAmount,legendText:'Remaining Amount',label:'Remaining Amount'}];
+			         }
+			         
+			         
+			         var chart = new CanvasJS.Chart("customerchartContainer", {
+			 	    	 	animationEnabled: true,
+			 	    	 	theme: "light2",
+			 	    	 	//backgroundColor: "#5bc0de",
+			 	    	 	 title: {
+			 	    	 		text: "All Customers"
+			 	    	 	}, 
+			 	    	 	axisX:{
+			 	    	        title: "Month",
+			 	    	        intervalType: "month",        
+			 	    	        labelAngle: -20
+			 	    	      },
+			 	    	 	axisY: {
+			 	    	 		title: "Amount",
+			 	    	 		titleFontSize: 24
+			 	    	 	},
+			 	    	 	legend:{
+			 	    	        verticalAlign: "bottom",
+			 	    	        horizontalAlign: "center"
+			 	    	      },
+			 	    	 	data: [{
+			 	    	 		type: "doughnut",
+			 	    	 		indexLabelFontSize: 17,
+			 	    	 		indexLabel: "{label} - #percent%",
+			 	    	 		toolTipContent: "<b>{label}:</b> {y} (#percent%)",
+			 	    	 		yValueFormatString: "#,### Rs",
+			 	    	 		toolTipContent: "{y}",
+			 	    	 		showInLegend: true,
+			 	    	 		dataPoints: metrics
+			 	    	 	}]
+			 	    	 });
+				        	chart.render();
+				},
+				error : function(e) {
+				}
+		});
+	     }
+	     
+	     
+	     
+        /* $.get("http://localhost:8080/CustomerService/resources/customer/getTransaction", function(data){
+     	  	var dataset1 = [];
+     	 	  $.each(data.transaction, function(i, contact) {
+     	 		  var row = []
+     	 		    row.push(contact.id);
+	     	 		row.push(contact.customer.custName);
+	     	 		row.push(contact.customer.phNumber);
+	     	 		row.push(contact.orderPerCustomer);
+	     	 		row.push(contact.totalAmount);
+	     	 		row.push(contact.submittedAmount);
+	     	 		row.push(contact.remainingAmount);
+	     	 		row.push((new Date(contact.createdDate)).toLocaleString());
+	     	 		dataset1.push(row);
+            });  
+     	$('#transaction').DataTable( {
+     		data:dataset1
+        });
+    }); */
+	    
+	    /* $("#customerSearch").keyup(function(){
+	        var searchText = $(this).val().toLowerCase();
+	        // Show only matching TR, hide rest of them
+	        $.each($("#customer tbody tr"), function() {
+	            if($(this).text().toLowerCase().indexOf(searchText) === -1)
+	               $(this).hide();
+	            else
+	               $(this).show();                
+	        });
+	    }); */
+	    
+    }); 
+ 
+ function openCity(evt, cityName) {
+	    var i, tabcontent, tablinks;
+	    tabcontent = document.getElementsByClassName("tabcontent");
+	    for (i = 0; i < tabcontent.length; i++) {
+	        tabcontent[i].style.display = "none";
+	    }
+	    tablinks = document.getElementsByClassName("tablinks");
+	    for (i = 0; i < tablinks.length; i++) {
+	        tablinks[i].className = tablinks[i].className.replace(" active", "");
+	    }
+	    document.getElementById(cityName).style.display = "block";
+	    evt.currentTarget.className += " active";
+	}
+ document.getElementById("defaultOpen").click();
+
+</script>
+</body>
+</html>
